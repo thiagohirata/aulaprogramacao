@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+	<title>Técnicas de programação para Games - Aula 1 - Desenhando via programação usando Processing</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+	<h1>Aula 1 - Desenhando com Processing e JavaScript</h1>
+	<section>
+		<div class="well">
+			<label>Objetivos</label>
+			<ul>
+				<li>Familiarizar-se com a sintaxe da linguagem JavaScript</li>
+				<li>Conhecer alguns comandos de desenho do ProcessingJS</li>
+				<li>Aprender a consultar a documentação do ProcessingJS</li>
+			</ul>
+		</div>
+	</section>
+
+	<section>
+		<h2>Laboratório</h2>
+		<div class="row laboratorio" codeid="aula1">
+			<div class="col-md-5">
+				<div class="form-group">
+					<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(360,300);
+ellipse(180,150,100,80);</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-md-7">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+<!--
+	<section>
+		<h2>Conceitos</h2>
+		<dl class="dl-horizontal">
+  			<dt>Comandos</dt>
+  			<dd>...</dd>
+  			<dt>Javascript</dt>
+  			<dd>...</dd>
+  			<dt>Comentário</dt>
+  			<dd>...</dd>
+  			<dt>Parâmetros</dt>
+  			<dd>...</dd>
+		</dl>
+	</section>-->
+
+	<section>
+		<h2>Comandos Processing JS</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<pre><code class="language-javascript autoprism">//primitivas 2D
+arc(x, y, width, height, start, stop)
+ellipse(x, y, width, height)
+line(x1, y1, x2, y2)
+point(x, y)
+quad(x1, y1, x2, y2, x3, y3, x4, y4)
+rect(x, y, width, height)
+triangle(x1, y1, x2, y2, x3, y3)
+</code></pre>
+			</div>
+			<div class="col-md-4">
+				<pre><code class="language-javascript autoprism">//cores
+background(gray)
+background(gray, alpha)
+background(red, green, blue)
+background(red, green, blue, alpha)
+background(color)
+background(color, alpha)
+background(hex)
+background(hex)
+background(hex, alpha)
+fill(*)
+stroke(*)
+</code></pre>
+			</div>
+			<div class="col-md-4">
+				<pre><code class="language-javascript autoprism">//texto
+text(data, x, y)
+text(stringdata, x, y, width, height)
+loadFont(fontname)
+textFont(font)
+textFont(font, size)
+
+// controle de preenchimento/linha
+noFill()
+noStroke()
+strokeWeight(width)
+</code></pre>
+			</div>
+	</section>
+
+	<section>
+		<h2>Exemplos</h2>
+		<div class="row">
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript">size(360,300);
+// esta linha é ignorada pelo programa!
+// <- as duas barras iniciam o comentário
+// dura até o fim da linha
+rect(150,150,50,50);    //desenha retângulo
+strokeWeight(3);        //muda grossura linha
+ellipse(150,150,50,50); //desenha elipse
+line(200,250,300,200);  //linha</code></pre>
+				<canvas></canvas>
+			</div>
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript">//não esqueça do ponto-e-vírgula
+//após cada comando
+size(360,300);     // largura=360, altura=300
+fill(255, 255, 0);       //preench. - amarelo
+stroke(255, 0, 0);       //linha - vermelho
+ellipse(150,150,150,150);//desenha elipse
+fill(0, 0, 0);           //preench. - preto
+ellipse(150,150,50,100); //desenha elipse
+</code></pre>
+				<canvas></canvas>
+			</div>
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript">size(360,300);
+//aspas simples iniciam e terminam uma string
+//escrever "100, 50" na posição (100, 50)
+text('100, 50', 100, 50);
+fill(0,0,0);  //preenchimento preto
+//escrever "50, 100" na posição (50, 100)
+text('50, 100', 50, 100);
+
+</code></pre>
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+	<section>
+		<h2>Exercícios - Escreva o código que tenha a mesma saída</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+fill(255, 255, 0);
+ellipse(150,150,150,150);
+fill(0, 0, 0);
+ellipse(100,130,10,10);
+ellipse(200,130,10,10);
+line(120, 170, 180, 170);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula1-ex1">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+background(180,200,255);
+fill(0,100,0);
+rect(0,180,359,119);
+fill(255,255,255);
+ellipse(180,220,120,120);
+ellipse(180,130,100,100);
+ellipse(180,60,80,80);
+fill(0,0,0);
+ellipse(160,50,5,5);
+ellipse(200,50,5,5);
+ellipse(180,80,15,10);
+fill(255,50,0);
+ellipse(180,60,15,15);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula1-ex2">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+			<!-- Smile 2 -->
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+strokeWeight(4);
+stroke(0,0,0);
+fill(255, 255, 0);
+ellipse(180,150,150,150);
+
+noFill();
+stroke(0,0,0);
+arc(180, 160, 50, 50, 0, 3.14);
+
+noStroke();
+fill(0, 0, 0);
+ellipse(130,140,15,15);
+ellipse(230,140,15,15);
+
+text('Hello', 160, 50);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula1-ex3">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+
+			<!-- Ex4: Arkanoid tosco -->
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+background(0,0,0);
+noStroke();
+fill(255,0,0);
+rect(0, 0, 5, 300); //parede esquerda
+rect(355, 0, 5, 300); //parede direita
+rect(0, 0, 360, 5); //parede superior
+
+fill(0,255,255);
+rect(130, 280, 60, 10); //player
+
+fill(255,255,0);
+ellipse(190, 240, 10, 10);
+
+text('357 pontos', 10, 20);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula1-ex4">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+			<!-- Ex5: Asteroids -->
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+background(0,0,0);
+stroke(255,255,255);
+noFill();
+triangle(130, 280, 140, 250, 150, 280); //player
+//tiro
+noStroke();
+fill(255);
+rect(139, 220, 2, 8);
+rect(139, 180, 2, 8);
+//inimigos
+quad(200, 160, 220, 165, 225, 140, 195, 145);
+quad(80, 100, 150, 85, 150, 140, 84, 145);
+
+
+	</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula1-ex5">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+
+	</div>
+
+	</section>
+
+	<section>
+		<h2>Referência</h2>
+		<ul>
+			<li><a href="https://pt.khanacademy.org/computing/computer-programming/programming/drawing-basics/p/making-drawings-with-code">Desenhando com código (Khan Academy)</a></li>
+			<li><a href="http://processingjs.org/reference/">ProcessingJS - Reference</a></li>
+			<li><a href="http://www.w3schools.com/js/js_syntax.asp">JavaScript Syntax (W3Schools)</a></li>
+
+		</ul>
+	</section>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>

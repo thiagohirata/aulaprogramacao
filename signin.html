@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Sign In</title>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+  </head>
+  <body>
+    <div class="container">
+        <div id="firebaseui-auth-container"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript">
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDC5WxwzI2hVBrAWHfWUgXBdQ9dYMQwF8Q",
+      authDomain: "tpg2016-597c0.firebaseapp.com",
+      databaseURL: "https://tpg2016-597c0.firebaseio.com",
+      storageBucket: "tpg2016-597c0.appspot.com",
+    };
+    firebase.initializeApp(config);
+
+         // FirebaseUI config.
+         var uiConfig = {
+           'signInSuccessUrl': 'index.html',
+           'signInOptions': [
+             // Leave the lines as is for the providers you want to offer your users.
+             firebase.auth.EmailAuthProvider.PROVIDER_ID,
+             firebase.auth.GoogleAuthProvider.PROVIDER_ID
+           ],
+           // Terms of service url.
+           'tosUrl': 'tos.html',
+         };
+
+         // Initialize the FirebaseUI Widget using Firebase.
+         var ui = new firebaseui.auth.AuthUI(firebase.auth());
+         // The start method will wait until the DOM is loaded.
+         ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+	<title>Técnicas de programação para Games - Aula 2 - Variáveis</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+	<h1>Aula 2 - Variáveis</h1>
+	<section>
+		<div class="well">
+			<label>Objetivos</label>
+			<ul>
+				<li>Aprender o conceito de <em>variável</em></li>
+				<li>Conhecer operadores básicos JavaScript</li>
+			</ul>
+		</div>
+	</section>
+
+	<section>
+		<h2>Laboratório</h2>
+		<div class="row laboratorio" codeid="aula2">
+			<div class="col-md-5">
+				<div class="form-group">
+					<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(360,300);
+var largura = 100;
+var altura = 80;
+ellipse(180, 100, largura, altura);
+largura = largura + 200;
+ellipse(180, 200, largura, altura);</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-md-7">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<h2>Variáveis e operadores</h2>
+		<div class="row">
+			<div class="col-md-8">
+				<pre><code class="language-javascript autoprism">// declaração de variáveis
+var x;            //declaração da variável
+var x1;           //identificador, pode conter números, letras, '_' e '$' (tem mais regras)
+var var;          //certas palavras são reservadas - não chame uma variável de "var"
+var function;     //inválido! - function é palavra reservada
+var var1;         //var1 é válido
+x = 4;            // = atribui o valor à variável
+var y = 4;        // você pode declarar e atribuir valor em um único comando
+var abC; var aBc; //identificador é sensível a maísculas/ minúsculas
+var enemyLife;    //camel case: começa com letra minúscula, letras maiúsculas separam palavras
+</code></pre>
+			</div>
+			<div class="col-md-4">
+				<pre><code class="language-javascript autoprism">// operações matemáticas
+var x = 1 + 3;   //soma
+var y = 1 - 3;   // subtração
+var z = 4 * 5;   // multiplicação
+var i = 20 / 5;  // divisão
+var j = 14 % 10; // resto da divisão (4)
+x += 4; // mesma coisa que x = x + 4;
+x -= 4; // mesma coisa que x = x - 4;
+x++; y--; // igual a x = x + 1; y = y - 1;
+</code></pre>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h2>Exemplos</h2>
+		<div class="row">
+			<div class="col-md-6 example">
+				<pre><code class="language-javascript">size(555,300);
+var lado = 40;
+var posX = 50;
+rect(posX, 150, lado, lado); // igual a rect(50, 150, 40, 40);
+posX = posX + 50;            // posX agora é igual a 100
+rect(posX, 150, lado, lado); // igual a rect(150, 150, 40, 40);
+posX = posX + 50;
+rect(posX, 150, lado, lado);
+posX += 50; //outra forma de escrever a mesma coisa
+rect(posX, 150, lado, lado);
+posX += 50;
+rect(posX, 150, lado, lado);
+</code></pre>
+				<canvas></canvas>
+			</div>
+			<div class="col-md-6 example">
+				<pre><code class="language-javascript">size(555,300);
+var lado = 40;
+var posX = 50;
+rect(posX,       50, lado, lado); // igual a rect(50, 150, 40, 40);
+//nas linhas abaixo, posX não muda de valor - continua igual a 50
+rect(posX + 50,  50, lado, lado); // rect(100, 50, 40, 40)
+rect(posX + 100, 50, lado, lado); // rect(150, 50, 40, 40)
+rect(posX + 150, 50, lado, lado);
+rect(posX + 200, 50, lado, lado);
+rect(posX + 250, 50, lado, lado);
+
+
+</code></pre>
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+	<section>
+		<h2>Exercícios 1 - Escreva um programa que tenha a mesma saída</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+var l = 40;
+var posX = 50;
+var posY = 50;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+posX += 10;posY += 5;
+rect(posX, posY, l, l);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula2-ex1">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+var l = 40;
+var posX = 50;
+var posY = 50;
+var gray = 0;
+var delta = 10;
+fill(gray);
+rect(posX, posY, l, l);
+posX += delta;posY += delta; l+=delta; gray+= delta;
+fill(gray);
+rect(posX, posY, l, l);
+posX += delta;posY += delta; l+=delta; gray+= delta;
+fill(gray);
+rect(posX, posY, l, l);
+posX += delta;posY += delta; l+=delta; gray+= delta;
+fill(gray);
+rect(posX, posY, l, l);
+posX += delta;posY += delta; l+=delta; gray+= delta;
+fill(gray);
+rect(posX, posY, l, l);
+posX += delta;posY += delta; l+=delta; gray+= delta;
+fill(gray);
+rect(posX, posY, l, l);
+posX += delta;posY += delta; l+=delta; gray+= delta;
+fill(gray);
+rect(posX, posY, l, l);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula2-ex2">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="example">
+					<pre class="hidden"><code class="language-javascript ">size(360,300);
+var posX = 10;
+var posY = 10;
+stroke(255,0,0);
+strokeWeight(3);
+
+posX += 40;
+point(posX, posY);
+text(posX, posX, posY);
+posX += 40;
+point(posX, posY);
+text(posX, posX, posY);
+posX += 40;
+point(posX, posY);
+text(posX, posX, posY);
+
+fill(0,0,0);
+posX = 10;
+posY += 40;
+point(posX, posY);
+text(posY, posX, posY);
+posY += 40;
+point(posX, posY);
+text(posY, posX, posY);
+posY += 40;
+point(posX, posY);
+text(posY, posX, posY);
+</code></pre>
+					<canvas></canvas>
+				</div>
+				<div class="laboratorio" codeid="aula2-ex3">
+					<div class="form-group">
+						<label>Digite seu código aqui</label>
+						<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block execute">Executar</button>
+					</div>
+					<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+					<canvas></canvas>
+				</div>
+			</div>
+
+		</div>
+	</section>
+	<section>
+
+		<h2>Exercícios 2 - descubra a saída</h2>
+		<div class="row">
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript ">var x = 1;
+var y = 2;
+x = y + x;
+text(x + y, 50, 50);
+
+
+
+</code></pre>
+				<canvas class="hidden"></canvas>
+			</div>
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript ">var x = 1;
+var y = 2;
+x = y + x + x * 5;
+text(x, 50, 50);
+
+
+
+</code></pre>
+				<canvas class="hidden"></canvas>
+			</div>
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript ">var x = 1;
+var y = 2;
+x++;
+y++;
+x = y * x;
+text(x, 50, 50);
+
+</code></pre>
+				<canvas class="hidden"></canvas>
+			</div>
+			<div class="col-md-4 example">
+				<pre><code class="language-javascript ">var x = 1;
+var y = 2;
+x++;
+y++;
+y = 14;
+x = y % 10;
+text(x, 50, 50);
+</code></pre>
+				<canvas class="hidden"></canvas>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<h2>Referência</h2>
+		<ul>
+			<li><a href="https://pt.khanacademy.org/computing/computer-programming/programming/variables/p/intro-to-variables">Introdução a variáveis (Khan Academy)</a></li>
+			<li><a href="http://www.w3schools.com/js/js_variables.asp">JavaScript Variables (W3Schools)</a></li>
+			<li><a href="http://www.w3schools.com/js/js_operators.asp">JavaScript Operators (W3Schools)</a></li>
+		</ul>
+	</section>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/prism.css"  />
+  <link rel="stylesheet" href="css/codemirror.css"  />
+  <title>TPG Classroom</title>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">TPG 2016</a>
+      <div class="pull-right">
+        <p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <!-- Meu código -->
+    <div class="row laboratorio" id="mylab">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Digite seu código aqui</label>
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">size(360,300);</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas></canvas>
+      </div>
+    </div>
+
+    <hr/>
+    <!-- Código dos outros alunos -->
+    <div class="row" id="otherscontainer">
+    </div>
+
+
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+  <script src="js/jquery-3.0.0.min.js"></script>
+  <script src="js/prism.js" data-manual></script>
+  <script src="js/processing.min.js"></script>
+  <script src="js/codemirror.js"></script>
+  <script src="js/codemirror/mode/javascript/javascript.js"></script>
+  <script src="js/laboratorio.js"></script>
+  <script src="js/appsetup.js"></script>
+
+  <script type="text/javascript">
+  function loadMyCode() {
+    try {
+      var codemirror = $('#mylab').data('codemirror');
+      var user = firebase.auth().currentUser;
+      if(!codemirror || !user) {
+        //laboratório ainda não foi inicializado, ou código de autenticação
+        //ainda não foi executado
+        return;
+      }
+      firebase.database().ref('/students/' + user.uid).once('value').then(function(snapshot) {
+        if(snapshot) {
+          var val = snapshot.val();
+          if(val && val.code) {
+            codemirror.setValue(val.code);
+          }
+        }
+      });
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      loadMyCode();
+    }
+  });
+
+  $(document).on('lab-init', '#mylab', function(evt) {
+    //tenta carregar código quando carregar mylab
+    loadMyCode();
+  });
+
+  $(document).on('lab-execute', function(evt) {
+    //grava código no firebase
+    try {
+      var user = firebase.auth().currentUser;
+      firebase.database().ref('/students/' + user.uid).set ({ code: evt.code, displayName: user.displayName });
+    } catch(err) {
+      console.log(err);
+    }
+  });
+
+  function createStudentPanel(userId) {
+    if($('#otherscontainer .studentpanel[userid="' + userId + '"]').length > 0) return;
+    $('#otherscontainer').append('<div class="col-sm-2 studentpanel" userid="' + userId +  '"><div><label></label><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><canvas class="img-responsive"></canvas><pre class="language-javascript hidden"><code></code></pre></div>');
+
+    firebase.database().ref('/students/' + userId).on('value', function(snapshot) {
+      var studentPanel = $('#otherscontainer .studentpanel[userid="' + userId + '"]');
+      st = snapshot.val();
+      if(st == null) {
+        studentPanel.hide();
+      } else {
+        studentPanel.show();
+        studentPanel.find('code').html(st.code);
+        studentPanel.find('label').html(st.displayName);
+        initExample(studentPanel);
+      }
+    });
+  }
+
+  //handler - remover student
+  $(document).on('click', '.studentpanel .close', function(evt) {
+    evt.preventDefault();
+    var userId = $(this).closest('[userid]').attr('userid');
+    firebase.database().ref('/students/' + userId).remove();
+  });
+
+  $(function() {
+    firebase.database().ref('/students').on('child_added', function(data) {
+      createStudentPanel(data.key);
+    });
+  });
+  </script>
+</body>
+</html>

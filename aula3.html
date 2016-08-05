@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+	<title>Técnicas de programação para Games - Aula 3 - Condicionais</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+	<h1>Aula 3 - Condicionais</h1>
+	<section>
+		<div class="well">
+			<label>Objetivos</label>
+			<ul>
+				<li>Conhecer o <code>if</code></li>
+				<li>Conhecer o <code>if ... else</code></li>
+				<li>Conhecer operadores lógicos</li>
+			</ul>
+		</div>
+	</section>
+
+	<section>
+		<h2>Laboratório</h2>
+		<div class="row laboratorio" codeid="aula3">
+			<div class="col-md-5">
+				<div class="form-group">
+					<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(360,300);
+fill(0,0,0);
+var x = 30;
+if ( x > 20 ) {
+	text('x é maior que 20', 50, 50);
+}
+if ( x == 50 ) {
+	text('x é igual a 50', 50, 80);
+} else {
+	text('x não é igual a 50', 50, 80);
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-md-7">
+				<canvas></canvas>
+			</div>
+		</div>
+
+	</section>
+
+	<section>
+		<h2>if ... else, operadores de comparação e operadores lógicos</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<pre><code class="language-javascript autoprism">// operadores de comparação
+// == - valor igual
+5 == 5;         // Verdadeiro
+5 == 8;         // Falso
+5 == '5';       // Verdadeiro (no JavaScript)
+// === - igual e mesmo tipo
+5 === 5;        // Verdadeiro
+5 === 8;        // Falso
+5 === '5';      // Falso
+// != - valor diferente
+5 != 5;         // Falso
+5 != 8;         // Verdadeiro
+5 != '5';       // Falso (no JavaScript)
+// != - valor ou tipo diferente
+5 !== 5;        // Falso
+5 !== 8;        // Verdadeiro
+5 !== '5';      // Verdadeiro
+// > - maior que
+5 > 5;        // Falso
+5 > 4;        // Verdadeiro
+// >= - maior que ou igual a
+5 >= 5;        // Verdadeiro
+5 >= 4;        // Verdadeiro
+// < - menor que
+5 < 5;        // Falso
+5 < 4;        // Falso
+// <= - menor que ou igual a
+5 <= 5;        // Verdadeiro
+5 <= 4;        // Falso
+</code></pre>
+			</div>
+			<div class="col-md-8">
+				<pre><code class="language-javascript autoprism">// if
+if ( /* aqui vai a condição */ ) {
+	//trecho de código que é executado se a condição for verdadeira
+}
+//if ... else
+if (/*condição */) {
+	//executa isto se condição é verdadeira
+} else {
+	//executa isto se condição é falsa
+}
+
+var entradaPermitida = idade >= 18;
+if (entradaPermitida) {
+	abrirPagina('http://paginaadulta.com.br');
+} else {
+	abrirPagina('http://disney.com');
+	tocarSom('choro.wav');
+}
+
+//if ... else if ... if
+if ( ano > 2010 ) {
+	enviarWhatsApp(mensagem);
+} else if ( ano > 2004 ) {
+	enviarFacebook(mensagem);
+} else if ( ano > 1995 ) {
+	enviarEmail(mensagem);
+} else {
+	enviarCarta(mensagem);
+}</code></pre>
+			</div>
+			<div class="col-md-8">
+				<pre><code class="language-javascript autoprism">// operadores lógicos
+// && - e lógico
+if (idade >= 4 && idade <= 13) {
+	faixaEtaria = 'Criança';
+}
+// || - ou lógico
+if (faixaEtaria == 'Criança' || faixaEtaria == 'Bebê' || faixaEtaria == 'Adolescente') {
+	podeAssistirAoFilmeDoDeadPool = false;
+}
+// ! - negação
+if (!podeAssistirAoFilmeDoDeadPool) {
+	tocarSom('choro.wav');
+}
+</code></pre>
+			</div>
+		</div>
+	</section>
+
+	<section>
+
+		<h2>Exercício - lógica do jogo da velha</h2>
+		<p>Complete o código abaixo para incluir as regras do jogo da velha</p>
+		<div class="row">
+			<div class="col-md-12 ">
+				<pre><code class="language-javascript autoprism">size(400, 400);
+//tabuleiro de jogo da velha
+var p_1_1 = ' '; var p_1_2 = ' '; var p_1_3 = ' ';
+var p_2_1 = ' '; var p_2_2 = ' '; var p_2_3 = ' ';
+var p_3_1 = ' '; var p_3_2 = ' '; var p_3_3 = ' ';
+//cada variável representa um espaço no tabuleiro (p_1_1 é o canto superior esquerdo)
+//cada variável recebe 'X', 'O' (ou ' ', que é o valor inicial)
+p_1_1 = 'X'; p_1_2 = 'X'; p_1_3 = 'X';
+p_2_1 = ' '; p_2_2 = 'O'; p_2_3 = 'O';
+p_3_1 = 'X'; p_3_2 = 'O'; p_3_3 = ' ';
+if( p_1_1 == p_1_2 && p_1_2 == p_1_3 && p_1_1 == 'X') {
+	text('X ganhou', 200, 200);
+} else {
+	text('ninguém ganhou', 200, 200);
+}
+
+</code></pre>
+				<canvas class="hidden"></canvas>
+			</div>
+		</div>
+
+		<div class="laboratorio" codeid="aula3-ex1">
+			<div class="form-group">
+				<label>Faça suas modificações abaixo</label>
+				<textarea class="form-control" rows="30" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">size(600, 400);
+var p_1_1 = ' '; var p_1_2 = ' '; var p_1_3 = ' ';
+var p_2_1 = ' '; var p_2_2 = ' '; var p_2_3 = ' ';
+var p_3_1 = ' '; var p_3_2 = ' '; var p_3_3 = ' ';
+//cenário arbitrário
+p_1_1 = 'X'; p_1_2 = 'X'; p_1_3 = 'X';
+p_2_1 = ' '; p_2_2 = 'O'; p_2_3 = 'O';
+p_3_1 = 'X'; p_3_2 = 'O'; p_3_3 = ' ';
+if( p_1_1 == p_1_2 && p_1_2 == p_1_3 && p_1_1 == 'X') {
+	text('X ganhou', 200, 200);
+} else {
+	text('ninguém ganhou', 200, 200);
+}
+				</textarea>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary btn-block execute">Executar</button>
+			</div>
+			<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			<canvas></canvas>
+		</div>
+
+	</section>
+
+	<section>
+		<h2>Referência</h2>
+		<ul>
+			<li><a href="http://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparisons (W3Schools)</a></li>
+			<li><a href="http://www.w3schools.com/js/js_if_else.asp">JavaScript Conditions (W3Schools)</a></li>
+		</ul>
+	</section>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>
