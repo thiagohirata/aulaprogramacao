@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Técnicas de programação para Games - Aula 4 - Loops</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+  <h1>Aula 4 - Loops e Arrays</h1>
+  <section>
+    <h2>Loops?</h2>
+    <div class="row">
+        <div class="col-sm-6">
+          <p>Ao invés de escrever:</p>
+          <pre><code class="language-javascript autoprism">
+  var i = 0;
+  escrever(i);
+  i++;
+  escrever(i);
+  i++;
+  escrever(i);
+  i++;
+  escrever(i);
+  i++;
+  escrever(i);
+  i++;
+  escrever(i);
+          </code></pre>
+        </div>
+        <div class="col-sm-6">
+          <p>escreva:</p>
+          <pre><code class="language-javascript autoprism">
+  var i = 0;
+  while(i < 6) {
+    escrever(i);
+    i++;
+  }
+          </code></pre>
+        </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>While</h2>
+    <div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(600,450);
+var i = 0;
+while (i < 18) {
+  ellipse(20 + i * 20, 200, 20, 20);
+  i++;
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+    <hr/>
+
+    <div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(600,450);
+var i = 0;
+while (i < 18) {
+  if(i % 4 != 0) {
+    ellipse(20 + i * 20, 200, 20, 20);
+  }
+  i++;
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+    <hr/>
+
+    <h3>Cuidado com loop infinito!</h3>
+    <div class="row laboratorio" >
+    			<div class="col-sm-6">
+    				<div class="form-group">
+    					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    size(600,450);
+    var i = 0;
+    // como i não muda de valor, i < 18 sempre vai ser true
+    while (i < 18) {
+    }
+    </textarea>
+    				</div>
+    				<div class="form-group">
+    					<button class="btn btn-danger btn-block execute">NÃO CLIQUE NESTE BOTÃO</button>
+    				</div>
+    				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+    			</div>
+    			<div class="col-sm-6">
+    				<canvas></canvas>
+    			</div>
+    		</div>
+
+        <hr/>
+
+    <h3>Break</h3>
+    <div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(600,450);
+var i = 0;
+while (true) { // while(true) -> vai repetir infinitamente
+  ellipse(20 + i * 20, 200, 20, 20);
+  i++;
+  if(i > 10) {
+    break; // comando break - interrompe o loop!
+  }
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+    <hr/>
+
+    <h3>Continue</h3>
+    <div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+var WIDTH = 600, HEIGHT = 450, MAX_SIZE = 100;
+size(WIDTH, HEIGHT);
+var i = 0;
+noFill();
+while (i < 10) {
+  i++;
+  var r1 = Math.random(); // retorna um número entre 0 e 1
+  var r2 = Math.random();
+  var r3 = Math.random();
+  if(r3 <= 0.5) {
+    // continue - vai para a próxima iteração do loop
+    continue;
+  }
+  fill(r1 * 255, r2 * 255, r3 * 255);
+  ellipse(r1 * WIDTH, r2 * HEIGHT, r3 * MAX_SIZE, r3 * MAX_SIZE);
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+
+
+  </section>
+
+
+  <section>
+    <h2>For</h2>
+    <div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for (var i = 0; i < 624; i++) {
+  //três partes (separadas por ;):
+  // - var i = 0 : executado antes da primeira iteração
+  // - i < 10    : teste antes de cada iteração
+  // - i++       : executado após cada iteração
+  var x = 10+(i % 25)*20;
+  var y = 10+ Math.floor(i / 25)*20;
+  ellipse(x, y, 20, 20);
+}
+
+
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+  </section>
+
+
+  <section>
+    <h2>Exercícios - Escreva o código que tenha a mesma saída</h2>
+
+    <div class="example">
+        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var red = 0;
+var blue = 255;
+var green = 0;
+var i = 0;
+while (i < 255) {
+  red  += 1;
+  blue -= 1;
+  fill(red, green, blue);
+  ellipse(10 + (i % 25) * 20, 10 + Math.floor(i / 25) * 20, 20, 20);
+  i++;
+}
+</code></pre><canvas class="center-block"></canvas>
+    </div>
+    <hr></hr>
+    <div class="row laboratorio">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>

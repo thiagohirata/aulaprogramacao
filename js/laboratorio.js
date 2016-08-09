@@ -75,7 +75,7 @@ $(function() {
 
 function initExample(dom) {
   var $this = $(dom);
-  var code = $this.find('code').html();
+  var code = $this.find('code').text();
   Prism.highlightElement($this.find('code')[0], false);
   var existingProcessing = $this.data('processinginstance');
   if(existingProcessing) {
