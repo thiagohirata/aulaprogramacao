@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Técnicas de programação para Games - Aula 6 - Funções</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+  <h1>Aula 6 - Funções</h1>
+  <section>
+    <div class="row">
+        <div class="col-sm-12">
+					<pre><code class="language-javascript autoprism">function nomeDaFuncao (parametroA, parametroB) {
+    var resultado = parametroA * parametroB;   // comando executado
+    return resultado;                          // função tem um retorno
+
+    //não pode colocar nenhum comando após o retorno
+}
+
+var x = nomeDaFuncao(4, 3);        // A função é chamada, e o valor retornado é armazenado em x
+</code></pre>
+        </div>
+    </div>
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+
+function desenharBolaDeCorAleatoria(x, y, tamanho) {
+	var r1 = Math.random(); // retorna um número entre 0 e 1
+	var r2 = Math.random();
+	var r3 = Math.random();
+	fill(r1 * 255, r2 * 255, r3 * 255);
+	ellipse(x, y, tamanho, tamanho);
+}
+
+for (var i = 0; i < 10; i++) {
+	desenharBolaDeCorAleatoria(20 + i * 45, 40, 40);
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+
+function gerarCorAleatoria() {
+  var x = {   red:    Math.random() * 255,
+              green:  Math.random() * 255,
+              blue:   Math.random() * 255};
+	return x;
+}
+function desenharBolaDeCorAleatoria(x, y, tamanho) {
+	var c = gerarCorAleatoria();
+	fill(c.red, c.green, c.blue);
+	ellipse(x, y, tamanho, tamanho);
+}
+function desenharQuadradoDeCorAleatoria(x, y, t) {
+	var c = gerarCorAleatoria();
+	fill(c.red, c.green, c.blue);
+	rect(x - t * 0.5, y - t * 0.5, t, t);
+}
+
+for (var i = 0; i < 10; i++) {
+	if (i % 2 == 0) {
+		desenharBolaDeCorAleatoria(20 + i * 45, 40, 40);
+	} else {
+		desenharQuadradoDeCorAleatoria(20 + i * 45, 40, 40);
+	}
+}
+		</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+  </section>
+
+	<hr></hr>
+
+
+	<section>
+    <h1>Exercícios - Complete o código</h1>
+
+    <div class="example">
+        <pre class="hidden"><code class="language-javascript ">function desenharBola(x, y) {
+ellipse(100 + x * 150, 100 + y * 150, 100, 100);
+}
+function desenharCruz(x, y) {
+line(50 + x * 150, 50 + y * 150, 150 + x * 150, 150 + y * 150);
+line(150 + x * 150, 50 + y * 150, 50 + x * 150, 150 + y * 150);
+}
+function desenharTabuleiro() {
+  line(175, 25, 175, 475);
+	line(325, 25, 325, 475);
+	line(25, 175, 475, 175);
+	line(25, 325, 475, 325);
+}
+
+size(500, 500);
+background(0);
+noFill();
+stroke(#ffffff);
+strokeWeight(10);
+desenharTabuleiro();
+desenharBola(0, 0);
+desenharBola(1, 1);
+desenharBola(2, 2);
+desenharCruz(2, 0);
+desenharCruz(2, 1);
+desenharCruz(1, 2);
+</code></pre><canvas class="center-block"></canvas>
+    </div>
+    <hr></hr>
+    <div class="row laboratorio">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">function desenharBola(x, y) {
+  //x é a posição horizontal no tabuleiro (0, 1 ou 2)
+  //y é a posição horizontal no tabuleiro (0, 1 ou 2)
+
+  //seu código aqui
+}
+function desenharCruz(x, y) {
+  //seu código aqui
+}
+function desenharTabuleiro() {
+  //seu código aqui
+}
+size(500, 500);
+background(0);
+noFill();
+stroke(255);
+strokeWeight(10);
+
+desenharTabuleiro();
+desenharBola(0, 0);
+desenharBola(1, 1);
+desenharBola(2, 2);
+desenharCruz(2, 0);
+desenharCruz(2, 1);
+desenharCruz(1, 2);
+</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>
