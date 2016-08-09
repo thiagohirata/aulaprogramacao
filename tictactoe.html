@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+	<title>Dodge Ball</title>
+</head>
+<body>
+<div class="container">
+	<canvas id="gamecanvas"  style="max-width: 100px; max-height: 100px;"></canvas>
+</div>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/processing.min.js"></script>
+<script src="js/gameengine1.js"></script>
+<script type="text/javascript">
+	//configuração da engine
+	var engineFps = 60;
+
+	//modelo
+	var board = [ [0,0,0],
+                [0,0,0],
+                [0,0,0] ];
+  var currentPlayer = 1;
+
+	function gameSetup() {
+
+	};
+	function gameLoop() {
+
+	};
+</script>
+<script type="application/processing" data-processing-target="gamecanvas">
+//view
+var bgColor = #000000;
+
+function desenharBola(x, y) {
+  fill(#ffffff);
+  noStroke();
+  ellipse(100 + x * 150, 100 + y * 150, 100, 100);
+}
+function desenharCruz(x, y) {
+  noFill();
+  stroke(#ffffff);
+  strokeWeight(10);
+  line(50 + x * 150, 50 + y * 150, 150 + x * 150, 150 + y * 150);
+  line(150 + x * 150, 50 + y * 150, 50 + x * 150, 150 + y * 150);
+}
+void setup() {
+   size(500, 500);
+   background(bgColor);
+   noStroke();
+}
+void draw() {
+	fill(bgColor);
+  desenharBola(0, 0);
+  desenharBola(1, 1);
+  desenharBola(2, 2);
+  desenharCruz(2, 0);
+  desenharCruz(2, 1);
+  desenharCruz(1, 2);
+}
+
+
+</script>
+</body>
+</html>

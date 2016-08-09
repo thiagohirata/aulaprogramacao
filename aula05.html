@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Técnicas de programação para Games - Aula 5 - Arrays</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+  <h1>Aula 5 - Arrays e Objetos</h1>
+  <section>
+    <h2>Para que servem Arrays?</h2>
+    <div class="row">
+        <div class="col-sm-12">
+					<pre><code class="language-javascript autoprism">var pessoa1 = 'Ana';
+var pessoa2 = 'Luis';
+var pessoa3 = 'Juliano';
+var pessoa4 = 'Artur';
+notificar(pessoa1);
+notificar(pessoa2);
+notificar(pessoa3);
+notificar(pessoa4);
+</code></pre>
+					<p>Um objeto Array é usado para armazenar múltiplos valores em uma única variável</p>
+          <pre><code class="language-javascript autoprism">var array1 = [ 'Ana', 'Luis', 'Juliano', 'Artur' ];
+notificar(array1[0]); //o número em colchetes
+notificar(array1[1]); //indica a posição
+notificar(array1[2]); //iniciando em '0'
+notificar(array1[3]);
+</code></pre>
+        </div>
+    </div>
+  </section>
+
+	<section>
+    <h3>Loops + Arrays</h3>
+    <div class="row">
+        <div class="col-sm-12">
+          <pre><code class="language-javascript autoprism">var array1 = [ 'Ana', 'Luis', 'Juliano', 'Artur' ];
+var x = array1.length; //length é uma propriedade que retorna a quantidade de valores
+for(var i = 0; i < x; i++) {
+	notificar(array1[i]);
+}
+</code></pre>
+        </div>
+    </div>
+  </section>
+
+	<section>
+    <h3>Manipulando o conteúdo de Arrays</h3>
+    <div class="row">
+        <div class="col-sm-12">
+          <pre><code class="language-javascript autoprism">var array1 = []; // array vazio
+array1[0] = 123; // no javascript, o array muda de tamanho automaticamente
+array1[1] = 'Elemento 2';
+array1[10] = 'Abacaxi'; //agora existem buracos no array!
+array1.push('Abacaxi'); //acrescenta um elemento ao fim do array
+</code></pre>
+        </div>
+    </div>
+
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+var cores = [ [255,0,0], [0,255,0], [0,0,255] ];
+for (var i = 0; i < cores.length; i++) {
+	fill(cores[i][0], cores[i][1], cores[i][2]);
+	ellipse(20 + i * 40, 40, 40, 40);
+}
+
+cores.push([ 255, 255, 0]);
+for (var i = 0; i < cores.length; i++) {
+	fill(cores[i][0], cores[i][1], cores[i][2]);
+	ellipse(20 + i * 40, 80, 40, 40);
+}
+
+cores[1] = [0,0,0];
+for (var i = 0; i < cores.length; i++) {
+	fill(cores[i][0], cores[i][1], cores[i][2]);
+	ellipse(20 + i * 40, 120, 40, 40);
+}
+
+cores[10] = [255,0,255];
+for (var i = 0; i < cores.length; i++) {
+	if(!cores[i]) continue;
+	fill(cores[i][0], cores[i][1], cores[i][2]);
+	ellipse(20 + i * 40, 120, 40, 40);
+}</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+  </section>
+
+	<div class="well">Veja mais em:
+		<ul>
+			<li><a href="http://www.w3schools.com/js/js_arrays.asp">JavaScript Arrays</a></li>
+			<li><a href="http://www.w3schools.com/jsref/jsref_obj_array.asp">JavaScript Array Reference</a></li>
+		</ul>
+	</div>
+
+	<hr></hr>
+	<section>
+    <h2>Objetos (em Javascript)</h2>
+    <div class="row">
+        <div class="col-sm-12">
+					<pre><code class="language-javascript autoprism">var pontosJogador1 = 1;
+var pontosJogador2 = 2;
+var posicaoXJogador1 = 0;
+var posicaoXJogador2 = 0;
+var posicaoYJogador1 = 100;
+var posicaoYJogador2 = 100;
+</code></pre>
+					<p>Um objeto permite guardar diversos valores em uma variável, mas cada valor é acessível a partir de um nome (string), e não um índice (número).</p>
+          <pre><code class="language-javascript autoprism">var jogador1 = {
+	pontos: 0,
+	x: 0,
+	y: 0
+};
+var jogador2 = {
+	pontos: 0,
+	x: 100,
+	y: 100
+};
+</code></pre>
+        </div>
+    </div>
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+var cor1 = {
+	red: 255, green: 0, blue: 0
+};
+
+fill(cor1.red, cor1.green, cor1.blue);
+ellipse(100, 40, 40, 40);
+
+cor1.green = 255;
+
+fill(cor1.red, cor1.green, cor1.blue);
+ellipse(100, 120, 40, 40);
+
+cor1.red = 0;
+
+fill(cor1.red, cor1.green, cor1.blue);
+ellipse(100, 200, 40, 40);
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+
+  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>
