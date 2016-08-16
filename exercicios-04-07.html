@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Exercícios - Aulas 4-7</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container-fluid">
+  <h1>Exercícios - Aulas 4-7</h1>
+
+
+	<section>
+		<h2>Exercício 04-01</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for(var i = 0; i < 10; i++) {
+	ellipse(150 + i* 20, 150 + i* 20, 20, 20);
+}	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula04-ex01">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for(var i = 0; i < 10; i++) {
+  //???
+}</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+	<section>
+		<h2>Exercício 04-02</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for (var i = 0; i < 25; i++) {
+  for (var j = 0; j < 25; j++) {
+		fill(j * 10);
+		ellipse(10 + i * 20, 10 + j * 20, 20, 20);
+	}
+}
+	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula04-ex02">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for (var i = 0; i < 25; i++) {
+  for (var j = 0; j < 25; j++) {
+		//???
+	}
+}
+</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+	<section>
+		<h2>Exercício 04-03</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for (var i = 0; i < 25; i++) {
+  for (var j = 0; j < 25; j++) {
+		fill(i * 10);
+		ellipse(10 + i * 20, 10 + j * 20, 20, 20);
+	}
+}
+	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula04-ex03">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+for (var i = 0; i < 25; i++) {
+  for (var j = 0; j < 25; j++) {
+		//???
+	}
+}
+</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section>
+		<h2>Exercício 04-04</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var red = 0;
+var blue = 255;
+var green = 0;
+var i = 0;
+while (i < 255) {
+  red  += 1;
+  blue -= 1;
+  fill(red, green, blue);
+  ellipse(10 + (i % 25) * 20, 10 + Math.floor(i / 25) * 20, 20, 20);
+  i++;
+}
+	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula04-ex04">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+	<section>
+		<h2>Exercício 05-01</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var nomes = ['JOÃO', 'LUIZ', 'SILVIA', 'AUGUSTO', 'RAFAEL'];
+fill(0);
+for(var i = 0; i < nomes.length ; i++) {
+  text(nomes[i], 100, i * 20 + 100);
+}	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula05-ex01">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var nomes = ['JOÃO', 'LUIZ', 'SILVIA', 'AUGUSTO', 'RAFAEL'];
+fill(0);
+for(var i = 0; i < nomes.length ; i++) {
+  text('HELLO!', 100, i * 20 + 100);
+}</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+	<section>
+		<h2>Exercício 05-02</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var objetos = [
+{
+  texto: 'VERDE',
+  x: 100, y: 200,
+  r: 255, g: 0, b: 0
+},
+{
+  texto: 'AMARELO',
+  x: 250, y: 300,
+  r: 0, g: 0, b: 255
+},
+{
+  texto: 'MARROM',
+  x: 420, y: 100,
+  r: 0, g: 0, b: 0
+},
+{
+  texto: 'ROXO',
+  x: 50, y: 450,
+  r: 0, g: 255, b: 0
+}
+];
+background(255);
+for(var i = 0; i < objetos.length ; i++) {
+  var ob = objetos[i];
+  fill(ob.r, ob.g, ob.b);
+  text(ob.texto, ob.x, ob.y);
+}</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula05-ex02">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var objetos = [
+{
+  texto: 'VERDE',
+  x: 100, y: 200,
+  r: 255, g: 0, b: 0
+},
+{
+  texto: 'AMARELO',
+  x: 250, y: 300,
+  r: 0, g: 0, b: 255
+},
+{
+  texto: 'MARROM',
+  x: 420, y: 100,
+  r: 0, g: 0, b: 0
+},
+{
+  texto: 'ROXO',
+  x: 50, y: 450,
+  r: 0, g: 255, b: 0
+}
+];
+background(255);
+for(var i = 0; i < objetos.length ; i++) {
+  var ob = objetos[i];
+	//??
+}</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+
+	<section>
+    <h2>Exercício 06-01</h1>
+    <div class="example">
+        <pre class="hidden"><code class="language-javascript ">function desenharBola(x, y) {
+ellipse(100 + x * 150, 100 + y * 150, 100, 100);
+}
+function desenharCruz(x, y) {
+line(50 + x * 150, 50 + y * 150, 150 + x * 150, 150 + y * 150);
+line(150 + x * 150, 50 + y * 150, 50 + x * 150, 150 + y * 150);
+}
+function desenharTabuleiro() {
+  line(175, 25, 175, 475);
+	line(325, 25, 325, 475);
+	line(25, 175, 475, 175);
+	line(25, 325, 475, 325);
+}
+
+size(500, 500);
+background(0);
+noFill();
+stroke(#ffffff);
+strokeWeight(10);
+desenharTabuleiro();
+desenharBola(0, 0);
+desenharBola(1, 1);
+desenharBola(2, 2);
+desenharCruz(2, 0);
+desenharCruz(2, 1);
+desenharCruz(1, 2);
+</code></pre><canvas class="center-block"></canvas>
+    </div>
+    <hr></hr>
+    <div class="row laboratorio" codeid="aula06-ex01">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">function desenharBola(x, y) {
+  //x é a posição horizontal no tabuleiro (0, 1 ou 2)
+  //y é a posição horizontal no tabuleiro (0, 1 ou 2)
+
+  //seu código aqui
+}
+function desenharCruz(x, y) {
+  //seu código aqui
+}
+function desenharTabuleiro() {
+  //seu código aqui
+}
+size(500, 500);
+background(0);
+noFill();
+stroke(255);
+strokeWeight(10);
+
+desenharTabuleiro();
+desenharBola(0, 0);
+desenharBola(1, 1);
+desenharBola(2, 2);
+desenharCruz(2, 0);
+desenharCruz(2, 1);
+desenharCruz(1, 2);
+</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+
+
+	<section>
+	    <h2>Exercício 06-01</h1>
+	    <div class="example">
+	        <pre class="hidden"><code class="language-javascript ">function desenharBola(x, y) {
+						var c = gerarCorAleatoria();
+						stroke(c.red, c.green, c.blue);
+	ellipse(100 + x * 150, 100 + y * 150, 100, 100);
+	}
+	function desenharCruz(x, y) {
+		var c = gerarCorAleatoria();
+		stroke(c.red, c.green, c.blue);
+	line(50 + x * 150, 50 + y * 150, 150 + x * 150, 150 + y * 150);
+	line(150 + x * 150, 50 + y * 150, 50 + x * 150, 150 + y * 150);
+	}
+	function desenharTabuleiro() {
+		var c = gerarCorAleatoria();
+		stroke(c.red, c.green, c.blue);
+	  line(175, 25, 175, 475);
+		c = gerarCorAleatoria();
+		stroke(c.red, c.green, c.blue);
+		line(325, 25, 325, 475);
+		c = gerarCorAleatoria();
+		stroke(c.red, c.green, c.blue);
+		line(25, 175, 475, 175);
+		c = gerarCorAleatoria();
+		stroke(c.red, c.green, c.blue);
+		line(25, 325, 475, 325);
+	}
+	function gerarCorAleatoria() {
+	  var x = {   red:    Math.random() * 255,
+	              green:  Math.random() * 255,
+	              blue:   Math.random() * 255};
+		return x;
+	}
+
+
+	size(500, 500);
+	background(0);
+	noFill();
+	stroke(#ffffff);
+	strokeWeight(10);
+	desenharTabuleiro();
+	desenharBola(1, 1);
+	desenharCruz(2, 0);
+	desenharBola(0, 0);
+	desenharCruz(2, 2);
+
+	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	    <hr></hr>
+	    <div class="row laboratorio" codeid="aula06-ex01">
+	      <div class="col-sm-6">
+	        <div class="form-group ">
+	          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">function desenharBola(x, y) {
+	  //x é a posição horizontal no tabuleiro (0, 1 ou 2)
+	  //y é a posição horizontal no tabuleiro (0, 1 ou 2)
+
+	  //seu código aqui
+	}
+	function desenharCruz(x, y) {
+	  //seu código aqui
+	}
+	function desenharTabuleiro() {
+	  //seu código aqui
+	}
+	size(500, 500);
+	background(0);
+	noFill();
+	stroke(255);
+	strokeWeight(10);
+
+	desenharTabuleiro();
+	desenharBola(0, 0);
+	desenharBola(1, 1);
+	desenharBola(2, 2);
+	desenharCruz(2, 0);
+	desenharCruz(2, 1);
+	desenharCruz(1, 2);
+	</textarea>
+	        </div>
+	        <div class="form-group">
+	          <button class="btn btn-primary btn-block execute">Executar</button>
+	        </div>
+	        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+	      </div>
+	      <div class="col-sm-6">
+	        <canvas  class="img-responsive"></canvas>
+	      </div>
+	    </div>
+	  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>
