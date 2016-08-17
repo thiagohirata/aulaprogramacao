@@ -53,24 +53,26 @@ var speed = 5;
 
 //renderização da cena
 function processingCode(processing) {
+	processing.setup = function() {
+		//setup
+		processing.size(500, 500);
+		processing.noStroke();
+	};
 
-		processing.draw = function() {
-			processing.background(0);
-			processing.ellipse(x, 250, 50, 50);
-		};
-		processing.setup = function() {
-			processing.size(500, 500);
-			processing.noStroke();
-		};
+	processing.draw = function() {
+		//chamado a cada frame
+		processing.background(0);
+		processing.ellipse(x, 250, 50, 50);
+	};
 }
 
 //executado a cada game loop
 function update() {
 	x += speed;
 	if (speed > 0 &amp;&amp; x > 500) {
-		speed *= -1.01;
+		speed = -5;
 	} else if(speed < 0 &amp;&amp; x < 0){
-		speed *= -1.01;
+		speed = 5;
 	}
 }
 
@@ -83,9 +85,42 @@ setInterval(update, 1000/60);</code></pre></div>
 	</section>
 
 	<section>
+		<h2>Capturando inputs do usuário em um browser</h2>
+		<div class="row">
+			<div class="col-sm-6"><pre><code class="language-javascript autoprism">var Input = {
+	space: false,
+	up: false,
+	down: false,
+	left: false,
+	right: false
+};
+document.onkeydown = function(evt) {
+	switch(evt.keyCode){
+		case 37: Input.left = true; break;
+		case 38: Input.up = true; break;
+		case 39: Input.right = true; break;
+		case 40: Input.down = true; break;
+		case 32: Input.space = true; break;
+	}
+};
+document.onkeyup = function(evt) {
+	switch(evt.keyCode){
+		case 37: Input.left = false; break;
+		case 38: Input.up = false; break;
+		case 39: Input.right = false; break;
+		case 40: Input.down = false; break;
+		case 32: Input.space = false; break;
+	}
+};</code></pre></div>
+			<div class="col-sm-6"><canvas id="exemplo-2"></canvas></div>
+		</div>
+	</section>
+
+	<section>
 		<h2>Referências</h2>
 		<ul>
 			<li><a href="http://gameprogrammingpatterns.com/game-loop.html">Game Programming Patterns - Game Loop - NYSTROM, Robert</a></li>
+			<li><a href="http://www.w3schools.com/js/js_switch.asp">W3Schools - JavaScript switch statement</a></li>
 		</ul>
 	</section>
 
@@ -101,6 +136,7 @@ setInterval(update, 1000/60);</code></pre></div>
 <script src="js/laboratorio.js"></script>
 <script src="js/appsetup.js"></script>
 <script>
+	//animação
 	$(function() {
 		//modelo
 		var x = 0;
@@ -108,29 +144,86 @@ setInterval(update, 1000/60);</code></pre></div>
 
 		//renderização da cena
 		function processingCode(processing) {
+			processing.setup = function() {
+				//setup
+				processing.size(500, 500);
+				processing.noStroke();
+			};
 
-				processing.draw = function() {
-					processing.background(0);
-					processing.ellipse(x, 250, 50, 50);
-				};
-				processing.setup = function() {
-					processing.size(500, 500);
-					processing.noStroke();
-				};
+			processing.draw = function() {
+				//processing
+				processing.background(0);
+				processing.ellipse(x, 250, 50, 50);
+			};
 		}
 
 		//executado a cada game loop
 		function update() {
 			x += speed;
 			if (speed > 0 && x > 500) {
-				speed *= -1.01;
+				speed = -5;
 			} else if(speed < 0 && x < 0){
-				speed *= -1.01;
+				speed = 5;
 			}
 		}
 
 		new Processing($('#exemplo-1')[0], processingCode);
 		setInterval(update, 1000/60);
+	});
+
+	//captura de Input
+	var Input = {
+	space: false,
+	up: false,
+	down: false,
+	left: false,
+	right: false
+	};
+	document.onkeydown = function(evt) {
+			switch(evt.keyCode){
+					case 37: Input.left = true; break;
+					case 38: Input.up = true; break;
+					case 39: Input.right = true; break;
+					case 40: Input.down = true; break;
+					case 32: Input.space = true; break;
+			}
+	};
+	document.onkeyup = function(evt) {
+			switch(evt.keyCode){
+					case 37: Input.left = false; break;
+					case 38: Input.up = false; break;
+					case 39: Input.right = false; break;
+					case 40: Input.down = false; break;
+					case 32: Input.space = false; break;
+			}
+	};
+
+	//canvas que mostra o funcionamento de Input
+	$(function() {
+		//renderização da cena
+		function processingCode(processing) {
+			processing.setup = function() {
+				//setup
+				processing.size(500, 500);
+				processing.noStroke();
+			};
+
+			processing.draw = function() {
+				//processing
+				processing.background(0);
+				processing.fill(Input.up ? 255 : 120);
+				processing.text('UP', 100, 100);
+				processing.fill(Input.down ? 255 : 120);
+				processing.text('DOWN', 100, 150);
+				processing.fill(Input.left ? 255 : 120);
+				processing.text('LEFT', 100, 200);
+				processing.fill(Input.right ? 255 : 120);
+				processing.text('RIGHT', 100, 250);
+				processing.fill(Input.space ? 255 : 120);
+				processing.text('SPACE', 100, 300);
+			};
+		}
+		new Processing($('#exemplo-2')[0], processingCode);
 	});
 </script>
 
