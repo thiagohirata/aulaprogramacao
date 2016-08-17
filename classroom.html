@@ -8,6 +8,13 @@
   <link rel="stylesheet" href="css/codemirror.css"  />
   <title>TPG Classroom</title>
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+  <style>
+.studentpanel {
+  width: 250px;
+  height: 300px;
+  padding: 15px;
+}
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-default navbar-static-top">
@@ -38,7 +45,7 @@
 
     <hr/>
     <!-- Código dos outros alunos -->
-    <div class="row" id="otherscontainer">
+    <div class="clearfix" id="otherscontainer">
     </div>
 
 
@@ -100,7 +107,7 @@
 
   function createStudentPanel(userId) {
     if($('#otherscontainer .studentpanel[userid="' + userId + '"]').length > 0) return;
-    $('#otherscontainer').append('<div class="col-sm-2 studentpanel" userid="' + userId +  '"><div><label></label><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><canvas class="img-responsive"></canvas><pre class="language-javascript hidden"><code></code></pre></div>');
+    $('#otherscontainer').append('<div class="pull-left studentpanel" userid="' + userId +  '"><div><label></label><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><canvas class="img-responsive"></canvas><pre class="language-javascript hidden"><code></code></pre></div>');
 
     firebase.database().ref('/students/' + userId).on('value', function(snapshot) {
       var studentPanel = $('#otherscontainer .studentpanel[userid="' + userId + '"]');

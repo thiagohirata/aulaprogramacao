@@ -132,16 +132,12 @@ for (var i = 0; i < 25; i++) {
 		<div class="example">
 	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
 size(WIDTH, HEIGHT);
-var red = 0;
-var blue = 255;
-var green = 0;
-var i = 0;
-while (i < 255) {
-  red  += 1;
-  blue -= 1;
-  fill(red, green, blue);
-  ellipse(10 + (i % 25) * 20, 10 + Math.floor(i / 25) * 20, 20, 20);
-  i++;
+noStroke();
+for (var i = 0; i < 8; i++) {
+  for (var j = 0; j < 8; j++) {
+		fill((i + j) % 2 == 0 ? 0 : 255);
+		rect(i * 50 + 50, j * 50 + 50, 50, 50);
+	}
 }
 	</code></pre><canvas class="center-block"></canvas>
 	    </div>
@@ -163,6 +159,44 @@ size(WIDTH, HEIGHT);
       </div>
     </div>
   </section>
+
+	<section>
+		<h2>Exercício 04-05</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+var red = 0;
+var blue = 255;
+var green = 0;
+var i = 0;
+while (i < 255) {
+  red  += 1;
+  blue -= 1;
+  fill(red, green, blue);
+  ellipse(10 + (i % 25) * 20, 10 + Math.floor(i / 25) * 20, 20, 20);
+  i++;
+}
+	</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula04-ex05">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500, HEIGHT = 500;
+size(WIDTH, HEIGHT);
+</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
 
 	<section>
 		<h2>Exercício 05-01</h2>

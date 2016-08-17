@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="css/prism.css"  />
 	<link rel="stylesheet" href="css/codemirror.css"  />
   <link rel="stylesheet" href="css/laboratorio.css"  />
-	<title>Técnicas de programação para Games - Aula 7 - Game Loop</title>
+	<title>Técnicas de programação para Games - Aula 7 - Um protótipo de Game Engine</title>
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-static-top">
@@ -20,7 +20,67 @@
 	</nav>
 
 <div class="container">
-  <h1>Aula 7 - Game Loop</h1>
+  <h1>Aula 7 - Um protótipo de Game Engine</h1>
+
+	<section>
+		<h2>O Game Loop</h2>
+		<p><img src="aula07/gameloop.png" class="img-responsive"/></p>
+		<h3>Pseudo código</h3>
+		<pre><code class="language-javascript autoprism">init();
+while (true)
+{
+	var start = getCurrentTime();
+	processInput();
+	update();
+	render();
+	sleep(start + MS_PER_FRAME - getCurrentTime());
+}</code></pre>
+		<div class="alert alert-info">
+			<strong>Atenção:</strong> Em um ambiente JavaScript rodando em um browser,
+			um script não funciona assim. Quando um trecho de código é executado, o
+			browser "trava" - e o conteúdo só é atualizado quando o trecho de código
+			chegar ao fim.
+		</div>
+	</section>
+
+
+	<section>
+		<h2>Uma animação</h2>
+		<div class="row">
+			<div class="col-sm-6"><pre><code class="language-javascript autoprism">//modelo
+var x = 0;
+var speed = 5;
+
+//renderização da cena
+function processingCode(processing) {
+
+		processing.draw = function() {
+			processing.background(0);
+			processing.ellipse(x, 250, 50, 50);
+		};
+		processing.setup = function() {
+			processing.size(500, 500);
+			processing.noStroke();
+		};
+}
+
+//executado a cada game loop
+function update() {
+	x += speed;
+	if (speed > 0 &amp;&amp; x > 500) {
+		speed *= -1.01;
+	} else if(speed < 0 &amp;&amp; x < 0){
+		speed *= -1.01;
+	}
+}
+
+//inicia o processingJS
+new Processing($('#exemplo-1')[0], processingCode);
+//executa update 60 vezes por segundo
+setInterval(update, 1000/60);</code></pre></div>
+			<div class="col-sm-6"><canvas id="exemplo-1"></canvas></div>
+		</div>
+	</section>
 
 	<section>
 		<h2>Referências</h2>
@@ -40,5 +100,39 @@
 <script src="js/codemirror/mode/javascript/javascript.js"></script>
 <script src="js/laboratorio.js"></script>
 <script src="js/appsetup.js"></script>
+<script>
+	$(function() {
+		//modelo
+		var x = 0;
+		var speed = 5;
+
+		//renderização da cena
+		function processingCode(processing) {
+
+				processing.draw = function() {
+					processing.background(0);
+					processing.ellipse(x, 250, 50, 50);
+				};
+				processing.setup = function() {
+					processing.size(500, 500);
+					processing.noStroke();
+				};
+		}
+
+		//executado a cada game loop
+		function update() {
+			x += speed;
+			if (speed > 0 && x > 500) {
+				speed *= -1.01;
+			} else if(speed < 0 && x < 0){
+				speed *= -1.01;
+			}
+		}
+
+		new Processing($('#exemplo-1')[0], processingCode);
+		setInterval(update, 1000/60);
+	});
+</script>
+
 </body>
 </html>

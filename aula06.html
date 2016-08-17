@@ -187,6 +187,88 @@ desenharCruz(1, 2);
       </div>
     </div>
   </section>
+
+
+
+	<section>
+		<h2>Variáveis x Parâmetros!</h2>
+		<div class="row">
+				<div class="col-sm-12">
+					<pre><code class="language-javascript autoprism">function transformarXeY (x, y) {
+		x = x + 10;
+		y = y - 10;
+}
+
+var x = 4;
+var y = 5;
+transformarXeY(x, y);
+//qual o valor de x e qual o valor de y?
+</code></pre>
+				</div>
+		</div>
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+function transformarXeY (x, y) {
+  x = x + 10;
+  y = y - 10;
+}
+
+var x = 4;
+var y = 5;
+fill(255);
+text('valor de x = ' + x + ' e valor de y = ' + y, 100, 100);
+transformarXeY(x, y);
+fill(0);
+text('valor de x = ' + x + ' e valor de y = ' + y, 100, 200);
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+var x = 4;
+var y = 5;
+
+function transformarXeY () {
+  x = x + 10;
+  y = y - 10;
+}
+
+fill(255);
+text('valor de x = ' + x + ' e valor de y = ' + y, 100, 100);
+transformarXeY();
+fill(0);
+text('valor de x = ' + x + ' e valor de y = ' + y, 100, 200);
+
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
