@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Técnicas de programação para Games - Aula 7 - Laboratório</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container-fluid">
+  <h1>Aula 7 - Laboratório</h1>
+
+	<section>
+		<div class="row">
+			<div class="col-md-8">
+  			<div class="tab-content">
+					<div  class="active" id="modelcontent">
+						<h3>Model</h3>
+						<pre><code class="language-javascript autoprism">//modelo
+var ball = {
+	pos: [250, 250], // posição (0: x e 1: y)
+	speed: [0, 0]    // velocidade da bola
+};
+var player = {
+	pos: [250, 450],
+	speed: [0, 0]
+};</code></pre>
+					</div>
+					<div  class="" id="initcontent">
+						<h3>Init</h3>
+						<div class="form-group">
+							<textarea class="form-control autocodemirror autofirebasecontent" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="modelcode"  firebasesave-contentid="gameengine01lab-model">
+ball = {
+	pos: [250, 250],
+	speed: [1, 1]
+};
+player = {
+	pos: [250, 450],
+	speed: [0, 0]
+};
+</textarea>
+						</div>
+					</div>
+					<div  class="" id="updatecontent">
+						<h3>Update</h3>
+						<div class="form-group">
+							<textarea class="form-control autocodemirror autofirebasecontent" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="updatecode"  firebasesave-contentid="gameengine01lab-update">
+ball.pos[0] += ball.speed[0];
+player.pos[0] += player.speed[0];
+if(Input.left) {
+	player.speed[0] = -5;
+} else if(Input.right) {
+	player.speed[0] = 5;
+} else {
+	player.speed[0] = 0;
+}
+</textarea>
+						</div>
+					</div>
+					<div  class="" id="rendercontent">
+						<h3>Render Scene</h3>
+						<div class="form-group">
+							<textarea class="form-control autocodemirror autofirebasecontent" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="rendercode"  firebasesave-contentid="gameengine01lab-render">
+processing.background(0);
+processing.ellipse(ball.pos[0], ball.pos[1], 10, 10);
+processing.rect(player.pos[0], player.pos[1], 10, 10);
+</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div data-spy="affix" data-offset-top="60" style="width: 500px;">
+					<canvas id="gamecanvas" class="img-responsive "></canvas>
+					<br/>
+					<button class="btn btn-primary btn-lg recompilebutton btn-block" disabled >Carregando</button>
+				</div>
+			</div>
+	</div>
+	</section>
+
+
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script src="js/prism.js" data-manual></script>
+	<script src="js/processing.min.js"></script>
+	<script src="js/codemirror.js"></script>
+	<script src="js/codemirror/mode/javascript/javascript.js"></script>
+	<script src="js/laboratorio.js"></script>
+	<script src="js/appsetup.js"></script>
+	<script src="js/firebasesave.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script>
+	</script>
+	<script>
+
+$(function() {
+	$('.autocodemirror').each(function() {
+		var codemirrorinstance = CodeMirror.fromTextArea(this, {
+		      lineNumbers: true,
+		      dragDrop: false,
+		      autofocus: false
+		});
+		$(this).data('codemirror', codemirrorinstance);
+	});
+});
+//captura de Input
+var Input = {
+	space: false,
+	up: false,
+	down: false,
+	left: false,
+	right: false
+};
+document.onkeydown = function(evt) {
+		switch(evt.keyCode){
+				case 37: Input.left = true; break;
+				case 38: Input.up = true; break;
+				case 39: Input.right = true; break;
+				case 40: Input.down = true; break;
+				case 32: Input.space = true; break;
+		}
+};
+document.onkeyup = function(evt) {
+		switch(evt.keyCode){
+				case 37: Input.left = false; break;
+				case 38: Input.up = false; break;
+				case 39: Input.right = false; break;
+				case 40: Input.down = false; break;
+				case 32: Input.space = false; break;
+		}
+};
+
+
+//modelo
+var ball = {
+	pos: [250, 250],
+	speed: [1, 1]
+};
+var player = {
+	pos: [250, 450],
+	speed: [0, 0]
+};
+
+//renderização da cena
+var rendercode = '';
+var updatecode = '';
+var processing;
+var model = {
+	draw: function(processing) { eval(rendercode); },
+	update: function() { eval(updatecode); }
+};
+
+function configMyGame() {
+	var modelcodecandidate  =  $('#modelcode').data('codemirror').getValue();
+	var rendercodecandidate =  $('#rendercode').data('codemirror').getValue();
+	var updatecodecandidate =  $('#updatecode').data('codemirror').getValue();
+	eval(modelcodecandidate);
+	eval(rendercodecandidate);
+	eval(updatecodecandidate);
+	updatecode = updatecodecandidate;
+	rendercode = rendercodecandidate;
+}
+
+//canvas que mostra o funcionamento de Input
+$(function() {
+	//renderização da cena
+	function processingCode(processing) {
+		processing.setup = function() {
+			//setup
+			processing.size(500, 500);
+			processing.frameRate(40);
+			processing.noStroke();
+		};
+
+		processing.draw = function() {
+			model.draw(processing);
+		};
+	}
+	processing = new Processing($('#gamecanvas')[0], processingCode);
+	setInterval(model.update, 1000/60);
+});
+
+$(function() {
+	$(document).on('firebase-post-load', function() {
+		if($('.autofirebasecontent').not('.firebase-loaded').length == 0) {
+			$('.recompilebutton').prop('disabled', false);
+			$('.recompilebutton').text('Start!');
+			$('.recompilebutton').on('click', function() {
+				configMyGame();
+				$('.autofirebasecontent').trigger('firebase-save');
+			});
+		}
+	});
+});
+
+	</script>
+</body>
+</html>

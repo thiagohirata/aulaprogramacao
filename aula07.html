@@ -116,6 +116,61 @@ document.onkeyup = function(evt) {
 		</div>
 	</section>
 
+
+	<section>
+		<h2>Um código interativo</h2>
+		<div class="row">
+			<div class="col-sm-6"><pre><code class="language-javascript autoprism">//modelo
+var pos = { x: 250, y: 250 };
+
+//renderização da cena
+function processingCode(processing) {
+	processing.setup = function() {
+		//setup
+		processing.size(500, 500);
+		processing.noStroke();
+	};
+
+	processing.draw = function() {
+		//chamado a cada frame
+		processing.background(0);
+		processing.ellipse(pos.x, pos.y, 50, 50);
+	};
+}
+
+//executado a cada game loop
+function update() {
+	if(Input.left) {
+		pos.x -= 5;
+	} else if(Input.right) {
+		pos.x += 5
+	}
+	if(Input.up) {
+		pos.y -= 5;
+	} else if(Input.down) {
+		pos.y += 5;
+	}
+
+	if(Input.space) {
+		pos.x = 250; pos.y = 250;
+	}
+
+	if (pos.x > 500) {
+		pos.x = 500;
+	} else if(pos.x < 0){
+		pos.x = 0;
+	}
+	if (pos.y > 500) {
+		pos.y = 500;
+	} else if(pos.y < 0){
+		pos.y = 0;
+	}
+}</code></pre></div>
+			<div class="col-sm-6"><canvas id="exemplo-3"></canvas></div>
+		</div>
+	</section>
+
+
 	<section>
 		<h2>Referências</h2>
 		<ul>
@@ -224,6 +279,60 @@ document.onkeyup = function(evt) {
 			};
 		}
 		new Processing($('#exemplo-2')[0], processingCode);
+	});
+
+	$(function() {
+//modelo
+var pos = { x: 250, y: 250 };
+
+//renderização da cena
+function processingCode(processing) {
+	processing.setup = function() {
+		//setup
+		processing.size(500, 500);
+		processing.noStroke();
+	};
+
+	processing.draw = function() {
+		//chamado a cada frame
+		processing.background(0);
+		processing.ellipse(pos.x, pos.y, 50, 50);
+	};
+}
+
+//executado a cada game loop
+function update() {
+	if(Input.left) {
+		pos.x -= 5;
+	} else if(Input.right) {
+		pos.x += 5
+	}
+	if(Input.up) {
+		pos.y -= 5;
+	} else if(Input.down) {
+		pos.y += 5;
+	}
+
+	if(Input.space) {
+		pos.x = 250; pos.y = 250;
+	}
+
+	if (pos.x > 500) {
+		pos.x = 500;
+	} else if(pos.x < 0){
+		pos.x = 0;
+	}
+	if (pos.y > 500) {
+		pos.y = 500;
+	} else if(pos.y < 0){
+		pos.y = 0;
+	}
+}
+
+//inicia o processingJS
+new Processing($('#exemplo-3')[0], processingCode);
+//executa update 60 vezes por segundo
+setInterval(update, 1000/60);
 	});
 </script>
 
