@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Técnicas de programação para Games - Aula 8 - "Componentizando" nossa Game Engine</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+  <h1>Aula 8 - "Componentizando" nossa Game Engine</h1>
+
+	<section>
+		<h2>Dificuldade de manutenção do código!</h2>
+		<div class="row">
+			<div class="col-sm-7"><pre><code class="language-javascript autoprism">var CHAO_Y = 400;
+//modelo
+var player = {
+	posicao: { x: 100, y: CHAO_Y },
+	velocidade: { x: 0, y: 0 }
+};
+var inimigosVermelhos = [
+	{
+		posicao: { x: 150, y: CHAO_Y },
+		velocidade: { x: -1, y: 0 }
+	},
+	{
+		posicao: { x: 250, y: CHAO_Y },
+		velocidade: { x: -1, y: 0 }
+	},
+	{
+		posicao: { x: 350, y: CHAO_Y },
+		velocidade: { x: -1, y: 0 }
+	}
+];
+var inimigosAmarelos = [
+	{
+		posicao: { x: 300, y: 300 },
+		velocidade: { x: -1, y: 0 }
+	}
+];
+
+var inimigosVerdes = [];
+
+var step = 0;
+
+
+//renderização da cena
+function processingCode(processing) {
+	processing.setup = function() {
+		//setup
+		processing.size(500, 500);
+		processing.noStroke();
+	};
+
+	processing.draw = function() {
+		//chamado a cada frame
+		processing.background(0);
+		//desenhar "jogador"
+		processing.fill(255,255,255);
+		//cabeça
+		processing.ellipse(player.posicao.x, player.posicao.y - 20 + Math.cos(step/5) * player.velocidade.x, 10, 10);
+		//corpo
+		processing.rect(player.posicao.x-5, player.posicao.y - 15, 10, 15);
+
+
+		//desenhar inimigos vermelhos
+		for(var i = 0; i < inimigosVermelhos.length; i++) {
+			var inimigo = inimigosVermelhos[i];
+			processing.fill(255,0,0);
+			//cabeça
+			processing.ellipse(inimigo.posicao.x, inimigo.posicao.y - 20 + Math.cos(step/5) * 2, 10, 10);
+			//corpo
+			processing.rect(inimigo.posicao.x-5, inimigo.posicao.y - 15, 10, 15);
+		}
+		//desenhar inimigos amarelos
+		for(var i = 0; i < inimigosAmarelos.length; i++) {
+			var inimigo = inimigosAmarelos[i];
+			processing.fill(255,255,0);
+			//cabeça
+			processing.ellipse(inimigo.posicao.x, inimigo.posicao.y - 20 + Math.cos(step/5) * 2, 10, 10);
+			//corpo
+			processing.rect(inimigo.posicao.x-5, inimigo.posicao.y - 15, 10, 15);
+			//asas
+			processing.ellipse(inimigo.posicao.x - 8, inimigo.posicao.y - 10 + Math.cos(step/4) * 2, 5, 5);
+			processing.ellipse(inimigo.posicao.x + 8, inimigo.posicao.y - 10 + Math.cos(step/4) * 2, 5, 5);
+		}
+
+		//desenhar inimigos amarelos
+		for(var i = 0; i < inimigosVerdes.length; i++) {
+			var inimigo = inimigosVerdes[i];
+			processing.fill(0,255,0);
+			//cabeça
+			processing.ellipse(inimigo.posicao.x, inimigo.posicao.y - 20 + Math.cos(step/5) * 2, 10, 10);
+			//corpo
+			processing.rect(inimigo.posicao.x-5, inimigo.posicao.y - 15, 10, 15);
+		}
+
+	};
+}
+
+//executado a cada game loop
+function update() {
+	step++;
+
+	//controle do jogador
+	if(Input.left) {
+		player.velocidade.x = -2;
+	} else if(Input.right) {
+		player.velocidade.x = 2;
+	} else {
+		player.velocidade.x = 0;
+	}
+	if(player.posicao.y == CHAO_Y &amp;&amp; Input.space) {
+		player.velocidade.y = -5;
+	}
+
+	player.posicao.x += player.velocidade.x;
+	player.posicao.y += player.velocidade.y;
+
+	//gravidade
+	if(player.posicao.y > CHAO_Y) {
+		//caiu no chão
+		player.posicao.y = CHAO_Y;
+		player.velocidade.y = 0;
+	} else if(player.posicao.y < CHAO_Y) {
+		player.velocidade.y += 0.3;
+	}
+
+	//atualizar posição de inimigos vermelhos
+	for(var i = 0; i < inimigosVermelhos.length; i++) {
+		var elemento = inimigosVermelhos[i];
+		elemento.posicao.x += elemento.velocidade.x;
+		elemento.posicao.y += elemento.velocidade.y;
+		elemento.velocidade.x = Math.cos(step/40) * 2;
+	}
+	//atualizar posição de inimigos amarelos
+	for(var i = 0; i < inimigosAmarelos.length; i++) {
+		var elemento = inimigosAmarelos[i];
+		elemento.posicao.x += elemento.velocidade.x;
+		elemento.posicao.y += elemento.velocidade.y;
+		//movimento circular
+		elemento.velocidade.x = Math.cos(step/30) * 2;
+		elemento.velocidade.y = Math.sin(step/30) * 2;
+	}
+
+	//gerador de inimigos verdes - a cada 100 frames
+	if(step % 100 == 0) {
+		inimigosVerdes.push({
+			posicao: { x: 400, y: 0 },
+			velocidade: { x: 0, y: 0 }
+		});
+	}
+	//atualizar posição de inimigos verdes
+	for(var i = 0; i < inimigosVerdes.length; i++) {
+		var elemento = inimigosVerdes[i];
+		elemento.posicao.x += elemento.velocidade.x;
+		elemento.posicao.y += elemento.velocidade.y;
+
+		//gravidade
+		if(elemento.posicao.y < CHAO_Y) {
+			//está no ar - começa a cair
+			elemento.velocidade.y += 0.3;
+		} else if(elemento.posicao.y > CHAO_Y) {
+			//caiu no chão - começa a andar para a esquerda
+			elemento.posicao.y = CHAO_Y;
+			elemento.velocidade.y = 0;
+			elemento.velocidade.x = -3;
+		}
+	}
+}</code></pre></div>
+			<div class="col-sm-5">
+				<div data-spy="affix" data-offset-top="60" style="width: 500px;"><canvas id="exemplo-1"></canvas></div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h2>Referências</h2>
+		<ul>
+			<li><a href="http://gameprogrammingpatterns.com/game-loop.html">Game Programming Patterns - Game Loop - NYSTROM, Robert</a></li>
+			<li><a href="http://www.w3schools.com/js/js_switch.asp">W3Schools - JavaScript switch statement</a></li>
+		</ul>
+	</section>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+<script src="js/firebasesave.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+//animação
+$(function() {
+	var CHAO_Y = 400;
+	//modelo
+	var player = {
+		posicao: { x: 100, y: CHAO_Y },
+		velocidade: { x: 0, y: 0 }
+	};
+	var inimigosVermelhos = [
+		{
+			posicao: { x: 150, y: CHAO_Y },
+			velocidade: { x: -1, y: 0 }
+		},
+		{
+			posicao: { x: 250, y: CHAO_Y },
+			velocidade: { x: -1, y: 0 }
+		},
+		{
+			posicao: { x: 350, y: CHAO_Y },
+			velocidade: { x: -1, y: 0 }
+		}
+	];
+	var inimigosAmarelos = [
+		{
+			posicao: { x: 300, y: 300 },
+			velocidade: { x: -1, y: 0 }
+		}
+	];
+
+	var inimigosVerdes = [];
+
+	var step = 0;
+
+
+	//renderização da cena
+	function processingCode(processing) {
+		processing.setup = function() {
+			//setup
+			processing.size(500, 500);
+			processing.noStroke();
+		};
+
+		processing.draw = function() {
+			//chamado a cada frame
+			processing.background(0);
+			//desenhar "jogador"
+			processing.fill(255,255,255);
+			//cabeça
+			processing.ellipse(player.posicao.x, player.posicao.y - 20 + Math.cos(step/5) * player.velocidade.x, 10, 10);
+			//corpo
+			processing.rect(player.posicao.x-5, player.posicao.y - 15, 10, 15);
+
+
+			//desenhar inimigos vermelhos
+			for(var i = 0; i < inimigosVermelhos.length; i++) {
+				var inimigo = inimigosVermelhos[i];
+				processing.fill(255,0,0);
+				//cabeça
+				processing.ellipse(inimigo.posicao.x, inimigo.posicao.y - 20 + Math.cos(step/5) * 2, 10, 10);
+				//corpo
+				processing.rect(inimigo.posicao.x-5, inimigo.posicao.y - 15, 10, 15);
+			}
+			//desenhar inimigos amarelos
+			for(var i = 0; i < inimigosAmarelos.length; i++) {
+				var inimigo = inimigosAmarelos[i];
+				processing.fill(255,255,0);
+				//cabeça
+				processing.ellipse(inimigo.posicao.x, inimigo.posicao.y - 20 + Math.cos(step/5) * 2, 10, 10);
+				//corpo
+				processing.rect(inimigo.posicao.x-5, inimigo.posicao.y - 15, 10, 15);
+				//asas
+				processing.ellipse(inimigo.posicao.x - 8, inimigo.posicao.y - 10 + Math.cos(step/4) * 2, 5, 5);
+				processing.ellipse(inimigo.posicao.x + 8, inimigo.posicao.y - 10 + Math.cos(step/4) * 2, 5, 5);
+			}
+
+			//desenhar inimigos amarelos
+			for(var i = 0; i < inimigosVerdes.length; i++) {
+				var inimigo = inimigosVerdes[i];
+				processing.fill(0,255,0);
+				//cabeça
+				processing.ellipse(inimigo.posicao.x, inimigo.posicao.y - 20 + Math.cos(step/5) * 2, 10, 10);
+				//corpo
+				processing.rect(inimigo.posicao.x-5, inimigo.posicao.y - 15, 10, 15);
+			}
+
+		};
+	}
+
+	//executado a cada game loop
+	function update() {
+		step++;
+
+		//controle do jogador
+		if(Input.left) {
+			player.velocidade.x = -2;
+		} else if(Input.right) {
+			player.velocidade.x = 2;
+		} else {
+			player.velocidade.x = 0;
+		}
+		if(player.posicao.y == CHAO_Y && Input.space) {
+			player.velocidade.y = -5;
+		}
+
+		player.posicao.x += player.velocidade.x;
+		player.posicao.y += player.velocidade.y;
+
+		//gravidade
+		if(player.posicao.y > CHAO_Y) {
+			//caiu no chão
+			player.posicao.y = CHAO_Y;
+			player.velocidade.y = 0;
+		} else if(player.posicao.y < CHAO_Y) {
+			player.velocidade.y += 0.3;
+		}
+
+		//atualizar posição de inimigos vermelhos
+		for(var i = 0; i < inimigosVermelhos.length; i++) {
+			var elemento = inimigosVermelhos[i];
+			elemento.posicao.x += elemento.velocidade.x;
+			elemento.posicao.y += elemento.velocidade.y;
+			elemento.velocidade.x = Math.cos(step/40) * 2;
+		}
+		//atualizar posição de inimigos amarelos
+		for(var i = 0; i < inimigosAmarelos.length; i++) {
+			var elemento = inimigosAmarelos[i];
+			elemento.posicao.x += elemento.velocidade.x;
+			elemento.posicao.y += elemento.velocidade.y;
+			//movimento circular
+			elemento.velocidade.x = Math.cos(step/30) * 2;
+			elemento.velocidade.y = Math.sin(step/30) * 2;
+		}
+
+		//gerador de inimigos verdes - a cada 100 frames
+		if(step % 100 == 0) {
+			inimigosVerdes.push({
+				posicao: { x: 400, y: 0 },
+				velocidade: { x: 0, y: 0 }
+			});
+		}
+		//atualizar posição de inimigos verdes
+		for(var i = 0; i < inimigosVerdes.length; i++) {
+			var elemento = inimigosVerdes[i];
+			elemento.posicao.x += elemento.velocidade.x;
+			elemento.posicao.y += elemento.velocidade.y;
+
+			//gravidade
+			if(elemento.posicao.y < CHAO_Y) {
+				//está no ar - começa a cair
+				elemento.velocidade.y += 0.3;
+			} else if(elemento.posicao.y > CHAO_Y) {
+				//caiu no chão - começa a andar para a esquerda
+				elemento.posicao.y = CHAO_Y;
+				elemento.velocidade.y = 0;
+				elemento.velocidade.x = -3;
+			}
+		}
+	}
+
+	//inicia o processingJS
+	new Processing($('#exemplo-1')[0], processingCode);
+	//executa update 60 vezes por segundo
+	setInterval(update, 1000/60);
+});
+
+	//captura de Input
+	var Input = {
+	space: false,
+	up: false,
+	down: false,
+	left: false,
+	right: false
+	};
+	document.onkeydown = function(evt) {
+			switch(evt.keyCode){
+					case 37: Input.left = true; break;
+					case 38: Input.up = true; break;
+					case 39: Input.right = true; break;
+					case 40: Input.down = true; break;
+					case 32: Input.space = true; break;
+			}
+	};
+	document.onkeyup = function(evt) {
+			switch(evt.keyCode){
+					case 37: Input.left = false; break;
+					case 38: Input.up = false; break;
+					case 39: Input.right = false; break;
+					case 40: Input.down = false; break;
+					case 32: Input.space = false; break;
+			}
+	};
+
+</script>
+
+</body>
+</html>

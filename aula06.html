@@ -199,9 +199,9 @@ desenharCruz(1, 2);
 		y = y - 10;
 }
 
-var x = 4;
-var y = 5;
-transformarXeY(x, y);
+var a = 4;
+var b = 5;
+transformarXeY(a, b);
 //qual o valor de x e qual o valor de y?
 </code></pre>
 				</div>
@@ -211,20 +211,73 @@ transformarXeY(x, y);
 		<div class="row laboratorio" >
 			<div class="col-sm-6">
 				<div class="form-group">
-					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-size(500,500);
-function transformarXeY (x, y) {
-  x = x + 10;
-  y = y - 10;
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">function centralizar (x, y) {
+	x = 250;
+	y = 250;
 }
 
-var x = 4;
-var y = 5;
-fill(255);
-text('valor de x = ' + x + ' e valor de y = ' + y, 100, 100);
-transformarXeY(x, y);
-fill(0);
-text('valor de x = ' + x + ' e valor de y = ' + y, 100, 200);
+var x1 = 150; var y1 = 250;
+var x2 = 350; var y2 = 250;
+
+//centralizar(x1, y1);
+//centralizar(x2, y2);
+
+size(500,500);
+ellipse(x1, y1, 110, 110);
+ellipse(x2, y2, 100, 100);
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-6">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<h2>Variáveis x Parâmetros x Objetos!</h2>
+		<div class="row">
+				<div class="col-sm-12">
+					<pre><code class="language-javascript autoprism">function centralizarObjeto (objeto) {
+	objeto.x = 250;
+	objeto.y = 250;
+}
+
+var objeto1 = { x: 150, y: 250 };
+var objeto2 = { x: 350, y: 250 };
+
+centralizarObjeto(objeto1);
+centralizarObjeto(objeto2);
+
+size(500,500);
+ellipse(objeto1.x, objeto1.y, 110, 110);
+ellipse(objeto2.x, objeto2.y, 100, 100);</code></pre>
+				</div>
+		</div>
+
+		<hr></hr>
+		<div class="row laboratorio" >
+			<div class="col-sm-6">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">function centralizarObjeto (objeto) {
+	objeto.x = 250;
+	objeto.y = 250;
+}
+
+var objeto1 = { x: 150, y: 250 };
+var objeto2 = { x: 350, y: 250 };
+
+//centralizarObjeto(objeto1);
+//centralizarObjeto(objeto2);
+
+size(500,500);
+ellipse(objeto1.x, objeto1.y, 110, 110);
+ellipse(objeto2.x, objeto2.y, 100, 100);
 </textarea>
 				</div>
 				<div class="form-group">
@@ -241,22 +294,19 @@ text('valor de x = ' + x + ' e valor de y = ' + y, 100, 200);
 		<div class="row laboratorio" >
 			<div class="col-sm-6">
 				<div class="form-group">
-					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-size(500,500);
-var x = 4;
-var y = 5;
-
-function transformarXeY () {
-  x = x + 10;
-  y = y - 10;
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">function centralizarObjeto (objeto) {
+	objeto =  { x: 250, y: 250 };
 }
 
-fill(255);
-text('valor de x = ' + x + ' e valor de y = ' + y, 100, 100);
-transformarXeY();
-fill(0);
-text('valor de x = ' + x + ' e valor de y = ' + y, 100, 200);
+var objeto1 = { x: 150, y: 250 };
+var objeto2 = { x: 350, y: 250 };
 
+//centralizarObjeto(objeto1);
+//centralizarObjeto(objeto2);
+
+size(500,500);
+ellipse(objeto1.x, objeto1.y, 110, 110);
+ellipse(objeto2.x, objeto2.y, 100, 100);
 </textarea>
 				</div>
 				<div class="form-group">
