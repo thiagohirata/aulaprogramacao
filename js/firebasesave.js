@@ -9,13 +9,16 @@ $(function() {
         var firebaseref = firebase.database().ref('/saveddata/' + user.uid + '/' + contentid);
 
         firebaseref.once('value', function(snapshot) {
-          if(!snapshot.val()) return;
-          textarea.val(snapshot.val().code);
-          if(textarea.data('codemirror')) {
-            textarea.data('codemirror').setValue(snapshot.val().code);
+          try {
+            if(!snapshot.val()) return;
+            textarea.val(snapshot.val().code);
+            if(textarea.data('codemirror')) {
+              textarea.data('codemirror').setValue(snapshot.val().code);
+            }
+          } finally {
+            textarea.addClass('firebase-loaded');
+            textarea.trigger('firebase-post-load');
           }
-          textarea.addClass('firebase-loaded');
-          textarea.trigger('firebase-post-load');
         });
 
         textarea.on('firebase-save', function() {
