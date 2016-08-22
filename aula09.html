@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Técnicas de programação para Games - Aula 9 - Pathfinding</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container">
+  <h1>Aula 9 - Pathfinding</h1>
+
+	<div class="alert alert-info">
+		<strong>Atenção:</strong> Vocês verão mais sobre este assunto na disciplina de Inteligência Artificial!
+	</div>
+
+
+	<section>
+		<h2>Tabuleiro</h2>
+		<div class="row laboratorio" >
+			<div class="col-sm-7">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0],
+                 [0,0,1,1,0,0,0,1,1,0],
+                 [0,0,0,0,0,0,0,1,0,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+				 [0,0,1,0,0,0,0,0,1,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+                 [0,0,1,0,0,0,0,0,0,0]];
+var startingPosition = [ 5, 5];
+var goalPosition     = [ 9, 5];
+
+void draw() {
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[0].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * 50, y * 50, 50, 50);
+		}
+	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse(startingPosition[0] *50 + 25, startingPosition[1]  *50 + 25, 40, 40);
+
+	//desenha posição final
+	fill(0,255,0);
+	noStroke();
+	ellipse(goalPosition[0] *50 + 25, goalPosition[1]  *50 + 25, 40, 40);
+
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-5">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<h2>Objeto fronteira</h2>
+		<div class="row laboratorio" >
+			<div class="col-sm-7">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0],
+                 [0,0,1,1,0,0,0,1,1,0],
+                 [0,0,0,0,0,0,0,1,0,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+				 [0,0,1,0,0,0,0,0,1,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+                 [0,0,1,0,0,0,0,0,0,0]];
+var startingPosition = [ 5, 5];
+var goalPosition     = [ 9, 5];
+
+var fronteira = [];
+fronteira.push(startingPosition);
+
+
+void draw() {
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[0].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * 50, y * 50, 50, 50);
+		}
+	}
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke(); //sem linha
+	ellipse(startingPosition[0] *50 + 25, startingPosition[1]  *50 + 25, 40, 40);
+
+	//desenha posição final
+	fill(0,255,0);
+	noStroke();
+	ellipse(goalPosition[0] *50 + 25, goalPosition[1]  *50 + 25, 40, 40);
+
+	//desenha a fronteira
+	for(var i = 0; i < fronteira.length; i++) {
+		var elementoAtual = fronteira[i];
+		noFill();
+		strokeWeight(5); //linha grossa
+		stroke(0,0,255); //linha azul
+		rect(elementoAtual[0] * 50, elementoAtual[1] * 50, 50, 50);
+	}
+
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-5">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h2>Algoritmo de busca de caminho</h2>
+		<h3>Pseudo código</h3>
+		<pre><code class="language-javascript autoprism">
+var fronteira = [ posicaoInicial ];
+
+var espaçoAnterior = {};
+espaçoAnterior[posicaoInicial] = nenhum;
+
+while( fronteira.length > 0 ) {
+	var posiçãoAtual = fronteira.pop();
+	var vizinhosDaPosiçãoAtual = buscarVizinhos(posiçãoAtual);
+	for (var i = 0; i < vizinhosDaPosiçãoAtual.length; i++) {
+		var vizinho = vizinhosDaPosiçãoAtual[i];
+		if(vizinho not in espaçoAnterior) {
+			espaçoAnterior[vizinho] = posiçãoAtual;
+			fronteira.push(vizinho);
+		}
+	}
+}
+
+</code></pre>
+	</section>
+
+
+	<section>
+		<h2>Tabuleiro</h2>
+		<div class="row laboratorio" >
+			<div class="col-sm-7">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+frameRate(5);
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0],
+                 [0,0,1,1,0,0,0,1,1,0],
+                 [0,0,0,0,0,0,0,1,0,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+				 [0,0,1,0,0,0,0,0,1,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+                 [0,0,1,0,0,0,0,0,0,0]];
+var startingPosition = [ 5, 2 ];
+var goalPosition     = [ 9, 5];
+
+var fronteira = [ startingPosition ];
+
+var espacoAnterior = {};
+espacoAnterior[startingPosition] = [-1, -1];
+
+function buscarVizinhos(pos) {
+	//candidatos são as posições vizinhas de pos
+	var candidatos = [
+			[pos[0]-1, pos[1]],
+			[pos[0]+1, pos[1]],
+			[pos[0], pos[1]-1],
+			[pos[0], pos[1]+1]
+	];
+	var vizinhos   = [];
+	//adiciona a vizinhos os candidatos válidos
+	for(var i = 0; i < candidatos.length; i++) {
+		if(tabuleiro[candidatos[i][1]] != undefined
+		   && tabuleiro[candidatos[i][1]][candidatos[i][0]] == 0) {
+			vizinhos.push(candidatos[i]);
+		}
+	}
+	return vizinhos;
+}
+
+
+void draw() {
+	if(fronteira.length > 0) {
+		var posicaoAtual = fronteira.shift();
+		var vizinhos = buscarVizinhos(posicaoAtual);
+		for(var i = 0; i < vizinhos.length; i++) {
+			var vizinho = vizinhos[i];
+			if(espacoAnterior[vizinho] == undefined) {
+				espacoAnterior[vizinho] = posicaoAtual;
+				fronteira.push(vizinho);
+			}
+		}
+	}
+
+
+
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[0].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * 50, y * 50, 50, 50);
+		}
+	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse(startingPosition[0] *50 + 25, startingPosition[1]  *50 + 25, 40, 40);
+
+	//desenha posição final
+	fill(0,255,0);
+	noStroke();
+	ellipse(goalPosition[0] *50 + 25, goalPosition[1]  *50 + 25, 40, 40);
+
+
+	//desenha a fronteira
+	for(var i = 0; i < fronteira.length; i++) {
+		var elementoAtual = fronteira[i];
+		noFill();
+		strokeWeight(5); //linha grossa
+		stroke(0,0,255); //linha azul
+		rect(elementoAtual[0] * 50, elementoAtual[1] * 50, 50, 50);
+	}
+}
+</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-5">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h2>Referências</h2>
+		<ul>
+			<a href="http://www.redblobgames.com/pathfinding/a-star/introduction.html">Amit Patel - Introduction to A*</a>
+		</ul>
+	</section>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+<script src="js/firebasesave.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
