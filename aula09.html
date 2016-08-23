@@ -19,7 +19,7 @@
 		</div>
 	</nav>
 
-<div class="container">
+<div class="container-fluid">
   <h1>Aula 9 - Pathfinding</h1>
 
 	<div class="alert alert-info">
@@ -180,7 +180,7 @@ while( fronteira.length > 0 ) {
 
 
 	<section>
-		<h2>Tabuleiro</h2>
+		<h2>"Varrendo" todos os espaços do mapa</h2>
 		<div class="row laboratorio" >
 			<div class="col-sm-7">
 				<div class="form-group">
@@ -196,8 +196,6 @@ var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
 				 [0,0,1,0,1,1,1,1,1,0],
                  [0,0,1,0,0,0,0,0,0,0]];
 var startingPosition = [ 5, 2 ];
-var goalPosition     = [ 9, 5];
-
 var fronteira = [ startingPosition ];
 
 var espacoAnterior = {};
@@ -229,14 +227,14 @@ void draw() {
 		var vizinhos = buscarVizinhos(posicaoAtual);
 		for(var i = 0; i < vizinhos.length; i++) {
 			var vizinho = vizinhos[i];
+			//o if abaixo verifica se o vizinho já foi
+			//visitado anteriormente
 			if(espacoAnterior[vizinho] == undefined) {
 				espacoAnterior[vizinho] = posicaoAtual;
 				fronteira.push(vizinho);
 			}
 		}
 	}
-
-
 
 	background(100);
 	for(var y = 0; y < tabuleiro.length; y++) {
@@ -252,16 +250,13 @@ void draw() {
 		}
 	}
 
-	//desenha posição inicial
-	fill(255,0,0);
-	noStroke();
-	ellipse(startingPosition[0] *50 + 25, startingPosition[1]  *50 + 25, 40, 40);
-
-	//desenha posição final
-	fill(0,255,0);
-	noStroke();
-	ellipse(goalPosition[0] *50 + 25, goalPosition[1]  *50 + 25, 40, 40);
-
+    //desenha quadrados já analisados
+	for(var espaco in espacoAnterior) {
+		noStroke();
+		fill(0, 100);
+        espaco = espaco.split(',');
+		rect(espaco[0] * 50 + 5, espaco[1] * 50 + 5, 40, 40);
+	}
 
 	//desenha a fronteira
 	for(var i = 0; i < fronteira.length; i++) {
@@ -271,6 +266,149 @@ void draw() {
 		stroke(0,0,255); //linha azul
 		rect(elementoAtual[0] * 50, elementoAtual[1] * 50, 50, 50);
 	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse(startingPosition[0] *50 + 25, startingPosition[1]  *50 + 25, 40, 40);
+}
+</textarea>
+
+
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-5">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<h2>Encontrando o caminho final</h2>
+		<div class="row laboratorio" >
+			<div class="col-sm-7">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+frameRate(10);
+var SQUARE_SIZE = 50;
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0],
+                 [0,0,1,1,0,0,0,1,1,0],
+                 [0,0,0,0,0,0,0,1,0,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+				 [0,0,1,0,0,0,0,0,1,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+                 [0,0,1,0,0,0,0,0,0,0]];
+var startingPosition = [ 5, 2 ];
+var fronteira = [ startingPosition ];
+
+var goalPosition     = [ 9, 5];
+//vai guardar o caminho na ordem
+var caminho   = [];
+
+var espacoAnterior = {};
+espacoAnterior[startingPosition] = [-1, -1];
+
+function buscarVizinhos(pos) {
+	//candidatos são as posições vizinhas de pos
+	var candidatos = [
+			[pos[0]-1, pos[1]],
+			[pos[0]+1, pos[1]],
+			[pos[0], pos[1]-1],
+			[pos[0], pos[1]+1]
+	];
+	var vizinhos   = [];
+	//adiciona a vizinhos os candidatos válidos
+	for(var i = 0; i < candidatos.length; i++) {
+		if(tabuleiro[candidatos[i][1]] != undefined
+		   && tabuleiro[candidatos[i][1]][candidatos[i][0]] == 0) {
+			vizinhos.push(candidatos[i]);
+		}
+	}
+	return vizinhos;
+}
+
+
+void draw() {
+	//caminho.length == 0: não faz a busca se encontrar o caminho
+	if(fronteira.length > 0 && caminho.length == 0) {
+		var posicaoAtual = fronteira.shift();
+		var vizinhos = buscarVizinhos(posicaoAtual);
+		for(var i = 0; i < vizinhos.length; i++) {
+			var vizinho = vizinhos[i];
+
+			if(espacoAnterior[vizinho] == undefined) {
+				espacoAnterior[vizinho] = posicaoAtual;
+				fronteira.push(vizinho);
+			}
+
+			//verifica se vizinho está no local certo
+			if(vizinho[0] == goalPosition[0]
+				&& vizinho[1] == goalPosition[1] ) {
+				for (var c = vizinho; c != undefined; c = espacoAnterior[c]) {
+					caminho.push(c);
+				}
+			}
+
+		}
+	}
+
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[y].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+	}
+
+	if(caminho.length == 0) {
+		//desenha quadrados já analisados
+		for(var espaco in espacoAnterior) {
+			noStroke();
+			fill(0, 100);
+	        espaco = espaco.split(',');
+			rect(espaco[0] * SQUARE_SIZE + 5, espaco[1] * SQUARE_SIZE + 5, SQUARE_SIZE-10, SQUARE_SIZE-10);
+		}
+
+		//desenha a fronteira
+		for(var i = 0; i < fronteira.length; i++) {
+			var elementoAtual = fronteira[i];
+			noFill();
+			strokeWeight(5); //linha grossa
+			stroke(0,0,255); //linha azul
+			rect(elementoAtual[0] * SQUARE_SIZE, elementoAtual[1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+	} else {
+		//desenha o caminho
+		for(var c = 0; c < caminho.length; c++) {
+			noStroke();
+			fill(0,0,255,150);
+			rect(caminho[c][0] * SQUARE_SIZE, caminho[c][1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse((startingPosition[0] + 0.5) * SQUARE_SIZE , (startingPosition[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+	//desenha posição final
+	fill(0,255,0);
+	noStroke();
+	ellipse((goalPosition[0] + 0.5) * SQUARE_SIZE , (goalPosition[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
 }
 </textarea>
 				</div>
@@ -284,6 +422,10 @@ void draw() {
 			</div>
 		</div>
 	</section>
+
+	<div class="alert alert-info">
+		faça o seguinte teste - na linha 45, substitua <code>fronteira.shift()</code> por <code>fronteira.pop()</code>
+	</div>
 
 	<section>
 		<h2>Referências</h2>
