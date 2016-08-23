@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/prism.css"  />
+	<link rel="stylesheet" href="css/codemirror.css"  />
+  <link rel="stylesheet" href="css/laboratorio.css"  />
+	<title>Exercícios - Aulas 8-9</title>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">TPG 2016</a>
+			<div class="pull-right">
+				<p class="navbar-text userdata hidden"><span class="username">{nome}</span> <small>(<a href="#" class="onclick-logout">sair</a>)</small></p>
+			</div>
+		</div>
+	</nav>
+
+<div class="container-fluid">
+  <h1>Exercícios - Aulas 8-9</h1>
+
+
+	<section>
+		<h2>Exercício 08-09</h2>
+		<div class="example">
+	        <pre class="hidden"><code class="language-javascript ">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+
+var circulo1 = {
+	centro: [ 250, 0 ],
+	velocidade: [0 , 0],
+	raio: 10
+};
+
+var circulo2 = {
+	centro: [ 250, 400 ],
+	raio: 10
+};
+
+function colide (c1, c2) {
+	//teorema de pitágoras!
+	var d = Math.sqrt ( Math.pow(c1.centro[0] - c2.centro[0], 2) + Math.pow(c1.centro[1] - c2.centro[1], 2));
+	return d < c1.raio + c2.raio;
+}
+
+void draw() {
+	background(100);
+	circulo1.centro[1] += circulo1.velocidade[1];
+	circulo1.velocidade[1] += 1;
+
+	if(colide(circulo1, circulo2)) {
+		circulo1.velocidade[1] = -25;
+	}
+	ellipse(circulo2.centro[0], circulo2.centro[1], circulo2.raio * 2, circulo2.raio * 2);
+	ellipse(circulo1.centro[0], circulo1.centro[1], circulo1.raio * 2, circulo1.raio * 2);
+
+}
+</code></pre><canvas class="center-block"></canvas>
+	    </div>
+	  <hr></hr>
+    <div class="row laboratorio" codeid="aula08-ex01">
+      <div class="col-sm-6">
+        <div class="form-group ">
+          <textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">var WIDTH = 500; var HEIGHT = 500;
+size(WIDTH, HEIGHT);
+
+var circulo1 = {
+  centro: [ 250, 0 ],
+  velocidade: [0 , 0],
+  raio: 5
+};
+
+var circulo2 = {
+  centro: [ 250, 400 ],
+  raio: 10
+};
+
+void draw() {
+  background(100);
+  circulo1.centro[1] += circulo1.velocidade[1];
+  circulo1.velocidade[1] += 1;
+
+  ellipse(circulo2.centro[0], circulo2.centro[1], circulo2.raio * 2, circulo2.raio * 2);
+  ellipse(circulo1.centro[0], circulo1.centro[1], circulo1.raio * 2, circulo1.raio * 2);
+
+}</textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block execute">Executar</button>
+        </div>
+        <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+      </div>
+      <div class="col-sm-6">
+        <canvas  class="img-responsive"></canvas>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/prism.js" data-manual></script>
+<script src="js/processing.min.js"></script>
+<script src="js/codemirror.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/laboratorio.js"></script>
+<script src="js/appsetup.js"></script>
+</body>
+</html>
