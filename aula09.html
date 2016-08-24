@@ -186,7 +186,7 @@ while( fronteira.length > 0 ) {
 				<div class="form-group">
 					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 size(500,500);
-frameRate(5);
+frameRate(2);
 var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
                  [0,0,1,0,0,0,0,1,0,0],
                  [0,0,1,1,0,0,0,1,1,0],
@@ -222,8 +222,9 @@ function buscarVizinhos(pos) {
 
 
 void draw() {
+	var posicaoAtual;
 	if(fronteira.length > 0) {
-		var posicaoAtual = fronteira.shift();
+		posicaoAtual = fronteira.shift();
 		var vizinhos = buscarVizinhos(posicaoAtual);
 		for(var i = 0; i < vizinhos.length; i++) {
 			var vizinho = vizinhos[i];
@@ -267,10 +268,195 @@ void draw() {
 		rect(elementoAtual[0] * 50, elementoAtual[1] * 50, 50, 50);
 	}
 
+	if(posicaoAtual != null) {
+		//desenha a posição atual
+		noFill();
+		strokeWeight(5); //linha grossa
+		stroke(255, 255, 0); //linha amarela
+		rect(posicaoAtual[0] * 50, posicaoAtual[1] * 50, 50, 50);
+	}
+
 	//desenha posição inicial
 	fill(255,0,0);
 	noStroke();
 	ellipse(startingPosition[0] *50 + 25, startingPosition[1]  *50 + 25, 40, 40);
+
+	//escreve variáveis
+	fill(255);
+	text("var posicaoAtual = " + posicaoAtual, 10, 480);
+	var fronteiraText = "var fronteira=[";
+	for(var i = 0; i < fronteira.length; i++) {
+		if(i> 0) {
+			fronteiraText = fronteiraText + ", "
+		}
+		fronteiraText = fronteiraText + "[" + fronteira[i] + "]";
+	}
+	fronteiraText = fronteiraText + "]";
+	text(fronteiraText, 10, 490);
+}
+</textarea>
+
+
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block execute">Executar</button>
+				</div>
+				<div class="alert alert-danger messagecontainer" style="display:none;"></div>
+			</div>
+			<div class="col-sm-5">
+				<canvas></canvas>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h2>"Varrendo" todos os espaços do mapa</h2>
+		<div class="row laboratorio" >
+			<div class="col-sm-7">
+				<div class="form-group">
+					<textarea class="form-control" rows="25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+size(500,500);
+frameRate(60);
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+				 [0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]
+];
+var startingPosition = [ 5, 2 ];
+var SQUARE_SIZE = 10;
+var fronteira = [ startingPosition ];
+
+var espacoAnterior = {};
+espacoAnterior[startingPosition] = [-1, -1];
+
+function buscarVizinhos(pos) {
+	//candidatos são as posições vizinhas de pos
+	var candidatos = [
+			[pos[0]-1, pos[1]],
+			[pos[0]+1, pos[1]],
+			[pos[0], pos[1]-1],
+			[pos[0], pos[1]+1]
+	];
+	var vizinhos   = [];
+	//adiciona a vizinhos os candidatos válidos
+	for(var i = 0; i < candidatos.length; i++) {
+		if(tabuleiro[candidatos[i][1]] != undefined
+		   && tabuleiro[candidatos[i][1]][candidatos[i][0]] == 0) {
+			vizinhos.push(candidatos[i]);
+		}
+	}
+	return vizinhos;
+}
+
+
+void draw() {
+	var posicaoAtual;
+	if(fronteira.length > 0) {
+		posicaoAtual = fronteira.shift();
+		var vizinhos = buscarVizinhos(posicaoAtual);
+		for(var i = 0; i < vizinhos.length; i++) {
+			var vizinho = vizinhos[i];
+			//o if abaixo verifica se o vizinho já foi
+			//visitado anteriormente
+			if(espacoAnterior[vizinho] == undefined) {
+				espacoAnterior[vizinho] = posicaoAtual;
+				fronteira.push(vizinho);
+			}
+		}
+	}
+
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[0].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+	}
+
+    //desenha quadrados já analisados
+	for(var espaco in espacoAnterior) {
+		noStroke();
+		fill(0, 100);
+        espaco = espaco.split(',');
+		rect(espaco[0] * SQUARE_SIZE + SQUARE_SIZE * 0.1, espaco[1] * SQUARE_SIZE + SQUARE_SIZE * 0.1, SQUARE_SIZE * 0.8,  SQUARE_SIZE * 0.8);
+	}
+
+	//desenha a fronteira
+	for(var i = 0; i < fronteira.length; i++) {
+		var elementoAtual = fronteira[i];
+		noFill();
+		strokeWeight(5); //linha grossa
+		stroke(0,0,255); //linha azul
+		rect(elementoAtual[0] * SQUARE_SIZE, elementoAtual[1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+	}
+
+	if(posicaoAtual != null) {
+		//desenha a posição atual
+		noFill();
+		strokeWeight(5); //linha grossa
+		stroke(255, 255, 0); //linha amarela
+		rect(posicaoAtual[0] * SQUARE_SIZE, posicaoAtual[1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse(startingPosition[0] * SQUARE_SIZE + SQUARE_SIZE/2, startingPosition[1]  * SQUARE_SIZE + SQUARE_SIZE/2, SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+	//escreve variáveis
+	fill(255);
+	text("var posicaoAtual = " + posicaoAtual, 10, 480);
+	var fronteiraText = "var fronteira=[";
+	for(var i = 0; i < fronteira.length; i++) {
+		if(i> 0) {
+			fronteiraText = fronteiraText + ", "
+		}
+		fronteiraText = fronteiraText + "[" + fronteira[i] + "]";
+	}
+	fronteiraText = fronteiraText + "]";
+	text(fronteiraText, 10, 490);
 }
 </textarea>
 
@@ -337,8 +523,9 @@ function buscarVizinhos(pos) {
 
 void draw() {
 	//caminho.length == 0: não faz a busca se encontrar o caminho
+	var posicaoAtual;
 	if(fronteira.length > 0 && caminho.length == 0) {
-		var posicaoAtual = fronteira.shift();
+		posicaoAtual = fronteira.shift();
 		var vizinhos = buscarVizinhos(posicaoAtual);
 		for(var i = 0; i < vizinhos.length; i++) {
 			var vizinho = vizinhos[i];
@@ -390,6 +577,16 @@ void draw() {
 			stroke(0,0,255); //linha azul
 			rect(elementoAtual[0] * SQUARE_SIZE, elementoAtual[1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 		}
+
+		//desenha a posicaoAtual
+		if(posicaoAtual != null) {
+			//desenha a posição atual
+			noFill();
+			strokeWeight(5); //linha grossa
+			stroke(255, 255, 0); //linha amarela
+			rect(posicaoAtual[0] * 50, posicaoAtual[1] * 50, 50, 50);
+		}
+
 	} else {
 		//desenha o caminho
 		for(var c = 0; c < caminho.length; c++) {
