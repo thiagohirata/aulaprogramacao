@@ -404,10 +404,11 @@ function buscarVizinhos(pos) {
 }
 
 //while(fronteira.length > 0 && caminho.length == 0) {
+// Lógica para encontrar o menor caminho até o objetivo
 //}
 
 var jogador = {
-	posicao: [ 5, 2 ],
+	posicao: [ startingPosition[0], startingPosition[1] ],
 	caminho: caminho
 };
 
@@ -428,21 +429,7 @@ void draw() {
 
 	//move o jogador em direção ao próximo quadrado
 	if(jogador.caminho.length > 0) {
-		if(Math.abs(jogador.posicao[0] - jogador.caminho[0][0]) < 0.09
-		 && Math.abs(jogador.posicao[1] - jogador.caminho[0][1]) < 0.09) {
-			//jogador chegou no próximo ponto!
-			//Tira o próximo item do caminho
-			var novaposicao = jogador.caminho.shift();
-			jogador.posicao[0] = novaposicao[0];
-			jogador.posicao[1] = novaposicao[1];
-		}
-		if(jogador.caminho.length > 0) {
-			//move para a esquerda ou direita
-			if(jogador.posicao[0] > jogador.caminho[0][0]) jogador.posicao[0]-= 0.1;
-			else if(jogador.posicao[0] < jogador.caminho[0][0]) jogador.posicao[0] += 0.1;
-			if(jogador.posicao[1] > jogador.caminho[0][1]) jogador.posicao[1]-= 0.1;
-			else if(jogador.posicao[1] < jogador.caminho[0][1]) jogador.posicao[1]+= 0.1;
-		}
+		//TODO: animação do jogador quadro a quadro
 	}
 
 	//desenha posição inicial
