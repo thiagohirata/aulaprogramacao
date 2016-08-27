@@ -690,7 +690,10 @@ void draw() {
 		 && Math.abs(jogador.posicao[1] - jogador.caminho[0][1]) < 0.09) {
 			//jogador chegou no próximo ponto!
 			//Tira o próximo item do caminho
-			jogador.posicao = jogador.caminho.shift();
+			var novaposicao = jogador.caminho.shift();
+			jogador.posicao[0] = novaposicao[0];
+			jogador.posicao[1] = novaposicao[1];
+
 		}
 		if(jogador.caminho.length > 0) {
 			//move para a esquerda ou direita
