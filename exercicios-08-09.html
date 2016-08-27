@@ -230,6 +230,250 @@ void draw() {
   </div>
   </section>
 
+
+
+
+  <section>
+	  <h2>Exercício 09-01</h2>
+	  <div class="example">
+		  <pre class="hidden"><code class="language-javascript ">size(500,500);
+frameRate(30);
+var SQUARE_SIZE = 50;
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0],
+                 [0,0,1,1,0,0,0,1,1,0],
+                 [0,0,0,0,0,0,0,1,0,0],
+		 [0,0,1,0,1,1,1,1,1,0],
+		 [0,0,1,0,0,0,0,0,1,0],
+		 [0,0,1,0,1,1,1,1,1,0],
+                 [0,0,1,0,0,0,0,0,0,0]];
+var startingPosition = [ 5, 2 ];
+var fronteira = [ startingPosition ];
+
+var goalPosition     = [ 9, 5];
+//vai guardar o caminho na ordem
+var caminho   = [];
+
+var espacoAnterior = {};
+espacoAnterior[startingPosition] = [-1, -1];
+
+function buscarVizinhos(pos) {
+	//candidatos são as posições vizinhas de pos
+	var candidatos = [
+			[pos[0]-1, pos[1]],
+			[pos[0]+1, pos[1]],
+			[pos[0], pos[1]-1],
+			[pos[0], pos[1]+1]
+	];
+	var vizinhos   = [];
+	//adiciona a vizinhos os candidatos válidos
+	for(var i = 0; i < candidatos.length; i++) {
+		if(tabuleiro[candidatos[i][1]] != undefined
+		   && tabuleiro[candidatos[i][1]][candidatos[i][0]] == 0) {
+			vizinhos.push(candidatos[i]);
+		}
+	}
+	return vizinhos;
+}
+
+while(fronteira.length > 0 &amp;&amp; caminho.length == 0) {
+	var posicaoAtual = fronteira.shift();
+	var vizinhos = buscarVizinhos(posicaoAtual);
+	for(var i = 0; i < vizinhos.length; i++) {
+		var vizinho = vizinhos[i];
+
+		if(espacoAnterior[vizinho] == undefined) {
+			espacoAnterior[vizinho] = posicaoAtual;
+			fronteira.push(vizinho);
+		}
+
+		//verifica se vizinho está no local certo
+		if(vizinho[0] == goalPosition[0]
+			&& vizinho[1] == goalPosition[1] ) {
+			//CHEGUEI !!!
+			for (var c = vizinho; c != undefined; c = espacoAnterior[c]) {
+				caminho.push(c);
+			}
+			caminho.reverse();
+			caminho.shift();
+		}
+
+	}
+}
+
+var jogador = {
+	posicao: [ 5, 2 ],
+	caminho: caminho
+};
+
+void draw() {
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[y].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+	}
+
+	//move o jogador em direção ao próximo quadrado
+	if(jogador.caminho.length > 0) {
+		if(Math.abs(jogador.posicao[0] - jogador.caminho[0][0]) < 0.09
+		 &amp;&amp; Math.abs(jogador.posicao[1] - jogador.caminho[0][1]) < 0.09) {
+			//jogador chegou no próximo ponto!
+			//Tira o próximo item do caminho
+			var novaposicao = jogador.caminho.shift();
+			jogador.posicao[0] = novaposicao[0];
+			jogador.posicao[1] = novaposicao[1];
+		}
+		if(jogador.caminho.length > 0) {
+			//move para a esquerda ou direita
+			if(jogador.posicao[0] > jogador.caminho[0][0]) jogador.posicao[0]-= 0.1;
+			else if(jogador.posicao[0] < jogador.caminho[0][0]) jogador.posicao[0] += 0.1;
+			if(jogador.posicao[1] > jogador.caminho[0][1]) jogador.posicao[1]-= 0.1;
+			else if(jogador.posicao[1] < jogador.caminho[0][1]) jogador.posicao[1]+= 0.1;
+		}
+	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse((startingPosition[0] + 0.5) * SQUARE_SIZE , (startingPosition[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+	//desenha posição final
+	fill(0,255,0);
+	noStroke();
+	ellipse((goalPosition[0] + 0.5) * SQUARE_SIZE , (goalPosition[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+
+	//desenha o jogador!
+	fill(255,255,0);
+	stroke(0,0,0);
+	ellipse((jogador.posicao[0] + 0.5) * SQUARE_SIZE , (jogador.posicao[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+
+}</code></pre><canvas class="center-block"></canvas>
+	  </div>
+	<hr></hr>
+  <div class="row laboratorio" codeid="aula09-ex01">
+	<div class="col-sm-8">
+	  <div class="form-group ">
+		<textarea class="form-control" rows="16" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">size(500,500);
+frameRate(30);
+var SQUARE_SIZE = 50;
+var tabuleiro = [[0,0,0,0,0,0,0,0,0,0],
+                 [0,0,1,0,0,0,0,1,0,0],
+                 [0,0,1,1,0,0,0,1,1,0],
+                 [0,0,0,0,0,0,0,1,0,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+				 [0,0,1,0,0,0,0,0,1,0],
+				 [0,0,1,0,1,1,1,1,1,0],
+                 [0,0,1,0,0,0,0,0,0,0]];
+var startingPosition = [ 5, 2 ];
+var fronteira = [ startingPosition ];
+
+var goalPosition     = [ 9, 5];
+//vai guardar o caminho na ordem
+var caminho   = [];
+
+var espacoAnterior = {};
+espacoAnterior[startingPosition] = [-1, -1];
+
+function buscarVizinhos(pos) {
+	//candidatos são as posições vizinhas de pos
+	var candidatos = [
+			[pos[0]-1, pos[1]],
+			[pos[0]+1, pos[1]],
+			[pos[0], pos[1]-1],
+			[pos[0], pos[1]+1]
+	];
+	var vizinhos   = [];
+	//adiciona a vizinhos os candidatos válidos
+	for(var i = 0; i < candidatos.length; i++) {
+		if(tabuleiro[candidatos[i][1]] != undefined
+		   && tabuleiro[candidatos[i][1]][candidatos[i][0]] == 0) {
+			vizinhos.push(candidatos[i]);
+		}
+	}
+	return vizinhos;
+}
+
+//while(fronteira.length > 0 && caminho.length == 0) {
+//}
+
+var jogador = {
+	posicao: [ 5, 2 ],
+	caminho: caminho
+};
+
+void draw() {
+	background(100);
+	for(var y = 0; y < tabuleiro.length; y++) {
+		for(var x = 0; x < tabuleiro[y].length; x++) {
+			strokeWeight(1); //linha fina
+			stroke(0,0,0); //linha preta
+			if(tabuleiro[y][x] == 1) {
+				fill(50);
+			} else {
+				fill(255);
+			}
+			rect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+	}
+
+	//move o jogador em direção ao próximo quadrado
+	if(jogador.caminho.length > 0) {
+		if(Math.abs(jogador.posicao[0] - jogador.caminho[0][0]) < 0.09
+		 && Math.abs(jogador.posicao[1] - jogador.caminho[0][1]) < 0.09) {
+			//jogador chegou no próximo ponto!
+			//Tira o próximo item do caminho
+			var novaposicao = jogador.caminho.shift();
+			jogador.posicao[0] = novaposicao[0];
+			jogador.posicao[1] = novaposicao[1];
+		}
+		if(jogador.caminho.length > 0) {
+			//move para a esquerda ou direita
+			if(jogador.posicao[0] > jogador.caminho[0][0]) jogador.posicao[0]-= 0.1;
+			else if(jogador.posicao[0] < jogador.caminho[0][0]) jogador.posicao[0] += 0.1;
+			if(jogador.posicao[1] > jogador.caminho[0][1]) jogador.posicao[1]-= 0.1;
+			else if(jogador.posicao[1] < jogador.caminho[0][1]) jogador.posicao[1]+= 0.1;
+		}
+	}
+
+	//desenha posição inicial
+	fill(255,0,0);
+	noStroke();
+	ellipse((startingPosition[0] + 0.5) * SQUARE_SIZE , (startingPosition[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+	//desenha posição final
+	fill(0,255,0);
+	noStroke();
+	ellipse((goalPosition[0] + 0.5) * SQUARE_SIZE , (goalPosition[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+	//desenha o jogador!
+	fill(255,255,0);
+	stroke(0,0,0);
+	ellipse((jogador.posicao[0] + 0.5) * SQUARE_SIZE , (jogador.posicao[1] + 0.5)  * SQUARE_SIZE , SQUARE_SIZE * 0.8, SQUARE_SIZE * 0.8);
+
+
+}</textarea>
+	  </div>
+	  <div class="form-group">
+		<button class="btn btn-primary btn-block execute">Executar</button>
+	  </div>
+	  <div class="alert alert-danger messagecontainer" style="display:none;"></div>
+	</div>
+	<div class="col-sm-4">
+	  <canvas  class="img-responsive"></canvas>
+	</div>
+  </div>
+  </section>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
